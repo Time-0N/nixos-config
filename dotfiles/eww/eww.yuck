@@ -1,0 +1,114 @@
+;; Variables
+(defpoll volume :interval "1s"
+  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}'")
+(defpoll mic-volume :interval "1s"
+  "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print int($2*100)}'")
+(defpoll volume-muted :interval "1s"
+  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo true || echo false")
+(defpoll mic-muted :interval "1s"
+  "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q MUTED && echo true || echo false")
+
+;; Volume Popup
+(defwindow volume-popup
+  :geometry (geometry :x "10"
+                      :y "10"
+                      :width "320px"
+                      :height "120px"
+                      :anchor "top right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  (box :class "popup-container"
+       :orientation "v"
+       :space-evenly false
+    (box :class "popup-header"
+         :space-evenly false
+         :spacing 10
+      (label :text "${volume-muted == 'true' ? '🔇' : '🔊'}" 
+             :class "popup-icon")
+      (label :text "Volume" :class "popup-title" :halign "start" :hexpand true)
+      (button :class "close-btn" 
+              :onclick "eww close volume-popup" 
+              ""))
+    (box :class "popup-content"
+         :orientation "v"
+         :spacing 8
+      (box :class "slider-container"
+           :orientation "h"
+           :spacing 10
+        (scale :value volume
+               :min 0
+               :max 100
+               :class "volume-slider"
+               :hexpand true
+               :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ $(echo 'scale=2; {}/100' | bc)")
+        (label :text "${volume}%" :class "volume-value"))
+      (box :class "quick-actions"
+           :spacing 5
+           :halign "end"
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%"
+                "25%")
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SINK@ 50%"
+                "50%")
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SINK@ 75%"
+                "75%")
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SINK@ 100%"
+                "100%")
+        (button :class "action-btn mute-btn"
+                :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+                "${volume-muted == 'true' ? '🔇' : '🔊'}")))))
+
+;; Microphone Popup
+(defwindow mic-popup
+  :geometry (geometry :x "10"
+                      :y "10"
+                      :width "320px"
+                      :height "120px"
+                      :anchor "top right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  (box :class "popup-container"
+       :orientation "v"
+       :space-evenly false
+    (box :class "popup-header"
+         :space-evenly false
+         :spacing 10
+      (label :text "${mic-muted == 'true' ? '🎤' : '🎤'}" 
+             :class "popup-icon")
+      (label :text "Microphone" :class "popup-title" :halign "start" :hexpand true)
+      (button :class "close-btn" 
+              :onclick "eww close mic-popup" 
+              ""))
+    (box :class "popup-content"
+         :orientation "v"
+         :spacing 8
+      (box :class "slider-container"
+           :orientation "h"
+           :spacing 10
+        (scale :value mic-volume
+               :min 0
+               :max 100
+               :class "volume-slider"
+               :hexpand true
+               :onchange "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ $(echo 'scale=2; {}/100' | bc)")
+        (label :text "${mic-volume}%" :class "volume-value"))
+      (box :class "quick-actions"
+           :spacing 5
+           :halign "end"
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 50%"
+                "50%")
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 75%"
+                "75%")
+        (button :class "action-btn"
+                :onclick "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 100%"
+                "100%")
+        (button :class "action-btn mute-btn"
+                :onclick "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+                "${mic-muted == 'true' ? '🔇' : '🎤'}")))))

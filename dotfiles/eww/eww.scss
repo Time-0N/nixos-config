@@ -1,0 +1,126 @@
+// Colors - match your Hyprland theme
+$background: #1e1e2e;
+$surface: #313244;
+$overlay: #45475a;
+$text: #cdd6f4;
+$subtext: #bac2de;
+$primary: #89b4fa;
+$red: #f38ba8;
+$green: #a6e3a1;
+
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+}
+
+// Popup Container
+.popup-container {
+  background-color: $background;
+  border: 2px solid $primary;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+// Header
+.popup-header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $overlay;
+}
+
+.popup-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.popup-title {
+  color: $text;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.close-btn {
+  color: $subtext;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $surface;
+    color: $red;
+  }
+}
+
+// Content
+.popup-content {
+  padding-top: 8px;
+}
+
+.slider-container {
+  margin-bottom: 8px;
+}
+
+// Slider Styling
+.volume-slider {
+  min-height: 8px;
+
+  trough {
+    background-color: $surface;
+    border-radius: 4px;
+    min-height: 8px;
+  }
+
+  highlight {
+    background-color: $primary;
+    border-radius: 4px;
+  }
+
+  slider {
+    background-color: $text;
+    border: 2px solid $primary;
+    border-radius: 50%;
+    min-width: 18px;
+    min-height: 18px;
+    margin: -5px;
+
+    &:hover {
+      background-color: $primary;
+    }
+  }
+}
+
+.volume-value {
+  color: $text;
+  font-weight: bold;
+  min-width: 45px;
+  text-align: right;
+}
+
+// Quick Actions
+.quick-actions {
+  margin-top: 8px;
+}
+
+.action-btn {
+  background-color: $surface;
+  color: $text;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $overlay;
+    color: $primary;
+  }
+
+  &.mute-btn {
+    background-color: $overlay;
+
+    &:hover {
+      background-color: $red;
+      color: $background;
+    }
+  }
+}
