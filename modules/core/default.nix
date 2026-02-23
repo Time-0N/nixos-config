@@ -1,0 +1,19 @@
+{ ... }:
+
+{
+  imports = [
+    ./snapper.nix
+    ./boot.nix
+    ./displaymanager.nix
+    ./console.nix
+    ./bluetooth.nix
+    ./fonts.nix
+    ./gpu.nix
+    ./networking.nix
+    ./filemanager.nix
+    ./programs.nix
+    ./users.nix
+    ./nix.nix
+    ./flatpak.nix
+  ];
+}
