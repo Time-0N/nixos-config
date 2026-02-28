@@ -1,5 +1,5 @@
 { pkgs }:
 
-[
-  (import ./wallpaper-slideshow.nix { inherit pkgs; })
-]
+{
+  wallpaper-slideshow = import ./wallpaper-slideshow.nix { inherit pkgs; };
+}

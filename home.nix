@@ -1,15 +1,17 @@
 {
   config,
   pkgs,
-  lib,
   inputs,
   ...
 }:
 
 let
-  hyprlandScripts = import ./scripts/hyprland { inherit pkgs; };
+  nixScripts = import ./scripts { inherit pkgs; };
+
 in
 {
+  imports = [ ./modules/waybar ];
+
   home.username = "timeon";
   home.homeDirectory = "/home/timeon";
   home.stateVersion = "24.11";
@@ -23,8 +25,6 @@ in
 
     pkgs.vesktop
     pkgs.kitty
-    pkgs.waybar
-    pkgs.cava
     pkgs.grim
     pkgs.slurp
     pkgs.satty
@@ -33,7 +33,6 @@ in
     pkgs.hyprlock
     pkgs.swww
     pkgs.playerctl
-    pkgs.nautilus
     pkgs.nwg-displays
     pkgs.wlr-randr
     pkgs.zsh-powerlevel10k
@@ -42,14 +41,16 @@ in
     pkgs.cava
     pkgs.blueman
     pkgs.spotify
-    pkgs.gamemode
     pkgs.parted
+    pkgs.vlc
+    pkgs.imv
+    pkgs.evince
+    pkgs.ffmpegthumbnailer
+    pkgs.nautilus
+    pkgs.pinta
 
     pkgs.papirus-icon-theme
     pkgs.apple-cursor
-
-    pkgs.nautilus-python
-    pkgs.nautilus-open-any-terminal
 
     # Wine and Proton
     pkgs.wineWowPackages.staging
@@ -111,12 +112,12 @@ in
     pkgs.qt6Packages.qtstyleplugin-kvantum
 
     # Zen Browser
-    inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.zen-browser.packages.${pkgs.system}.default
 
     # Hyprbucket
     inputs.hypr-bucket.packages.${pkgs.system}.default
   ]
-  ++ hyprlandScripts;
+  ++ nixScripts;
 
   # AUTOMATIC DOTFILES: This links your dotfile folders directly
   xdg.configFile = {
@@ -124,62 +125,11 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/hypr";
     "nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/nvim";
-    "waybar".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/waybar";
     "kitty".source = ./dotfiles/kitty;
-    "cava".source = ./dotfiles/cava;
     "gtk-3.0".source = ./dotfiles/gtk-3.0;
     "gtk-4.0".source = ./dotfiles/gtk-4.0;
     "Kvantum".source = ./dotfiles/Kvantum;
     "hyprlock".source = ./dotfiles/hyprlock;
-  };
-
-  # --- NAUTILUS POLKIT AGENT ---
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    Unit = {
-      Description = "polkit-gnome-authentication-agent-1";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
-  # --- WAYBAR SERRVICE ---
-  systemd.user.services.waybar = {
-    Unit = {
-      Description = "Waybar";
-      Wants = [
-        "hyprland-session.target"
-        "pipewire.service"
-      ];
-      After = [
-        "hyprland-session.target"
-        "pipewire.service"
-      ];
-      PartOf = [ "hyprland-session.target" ];
-    };
-
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.waybar}/bin/waybar";
-      Restart = "on-failure";
-      RestartSec = "0.5s";
-    };
-
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
   };
 
   home.file = {
@@ -275,7 +225,7 @@ in
       export PATH="$HOME/.local/bin:$PATH"
 
       # GHCUP
-      [ -f "/home/timeon/.ghcup/env" ] && . "/home/timeon/.ghcup/env"
+      [ -f "${config.home.homeDirectory}./.ghcup/env" ] && . "/home/timeon/.ghcup/env"
 
       # Powerlevel10k Config
       # (Ensure .p10k.zsh is actually sourced via home.file in this same file)

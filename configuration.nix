@@ -1,7 +1,5 @@
 {
-  config,
   pkgs,
-  inputs,
   ...
 }:
 
@@ -40,8 +38,10 @@
   };
 
   # --- BLUETOOTH ---
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
   services.blueman.enable = true;
 
   # --- FONTS ---
@@ -73,7 +73,6 @@
 
   programs.steam = {
     enable = true;
-    gamescopeSession.enable = true;
     remotePlay.openFirewall = true;
   };
 
@@ -82,11 +81,21 @@
 
   time.timeZone = "Europe/Zurich";
 
-  # --- NAUTILUS ---
+  # --- FILEMANAGER ---
   services.gvfs.enable = true;
   services.tumbler.enable = true;
   services.udisks2.enable = true;
   security.polkit.enable = true;
+  environment.pathsToLink = [ "/share/thumbnailers" ];
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.udisks2.filesystem-mount" ||
+           action.id == "org.freedesktop.udisks2.filesystem-mount-system") &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   # --- IEM DRIVERS DISABLED ---
   boot.blacklistedKernelModules = [
@@ -117,6 +126,7 @@
       "wheel"
       "input"
       "video"
+      "storage"
     ];
     shell = pkgs.zsh;
   };
