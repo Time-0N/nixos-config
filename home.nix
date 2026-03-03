@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   inputs,
@@ -10,13 +11,16 @@ let
 
 in
 {
-  imports = [ ./modules/waybar ];
+  imports = [
+    ./modules/home/waybar
+    ./modules/home/hyprland
+  ];
 
   home.username = "timeon";
   home.homeDirectory = "/home/timeon";
   home.stateVersion = "24.11";
 
-  # User-specific packages (Moving them from configuration.nix)
+  # User-specific packages
   home.packages = [
     pkgs.gcc
     pkgs.gnumake
@@ -53,13 +57,13 @@ in
     pkgs.apple-cursor
 
     # Wine and Proton
-    pkgs.wineWowPackages.staging
+    pkgs.wineWow64Packages.staging
     pkgs.winetricks
     pkgs.protonup-qt
 
     # Nix tools
     pkgs.nil
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
 
     # Rust tools
     pkgs.rust-analyzer
@@ -112,17 +116,15 @@ in
     pkgs.qt6Packages.qtstyleplugin-kvantum
 
     # Zen Browser
-    inputs.zen-browser.packages.${pkgs.system}.default
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Hyprbucket
-    inputs.hypr-bucket.packages.${pkgs.system}.default
+    inputs.hypr-bucket.packages.${pkgs.stdenv.hostPlatform.system}.default
   ]
   ++ nixScripts;
 
   # AUTOMATIC DOTFILES: This links your dotfile folders directly
   xdg.configFile = {
-    "hypr".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/hypr";
     "nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/nvim";
     "kitty".source = ./dotfiles/kitty;
@@ -208,34 +210,33 @@ in
     };
 
     # 4. INSTANT PROMPT (Goes at the very top)
-    initExtraFirst = ''
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
-    '';
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        fi
+      '')
+      ''
+        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
-    # 5. MAIN CONFIGURATION
-    initExtra = ''
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+        # PATH Exports
+        export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
+        export PATH="$PATH:$ANDROID_HOME/emulator"
+        export PATH="$PATH:$ANDROID_HOME/platform-tools"
+        export PATH="$HOME/.local/bin:$PATH"
 
-      # PATH Exports
-      export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
-      export PATH="$PATH:$ANDROID_HOME/emulator"
-      export PATH="$PATH:$ANDROID_HOME/platform-tools"
-      export PATH="$HOME/.local/bin:$PATH"
+        # GHCUP
+        [ -f "${config.home.homeDirectory}/.ghcup/env" ] && . "/home/timeon/.ghcup/env"
 
-      # GHCUP
-      [ -f "${config.home.homeDirectory}./.ghcup/env" ] && . "/home/timeon/.ghcup/env"
-
-      # Powerlevel10k Config
-      # (Ensure .p10k.zsh is actually sourced via home.file in this same file)
-      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-    '';
+        # Powerlevel10k Config
+        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+      ''
+    ];
   };
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
+    matchBlocks."*".addKeysToAgent = "yes";
   };
 
   services.ssh-agent.enable = true;

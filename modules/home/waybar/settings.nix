@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  scripts = import ../../scripts/waybar { inherit pkgs; };
+  scripts = import ../../../scripts/waybar { inherit pkgs; };
 in
 {
 

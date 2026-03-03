@@ -4,7 +4,10 @@
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/core/displaymanager.nix
+  ];
 
   # --- BOOTLOADER ---
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -32,10 +35,7 @@
     enable = true;
     enable32Bit = true;
   };
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "amdgpu" ];
-  };
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   # --- BLUETOOTH ---
   hardware.bluetooth = {
@@ -55,17 +55,6 @@
     # 3. Geist Mono Nerd Font
     nerd-fonts.geist-mono
   ];
-
-  # --- DISPLAY MANAGER ---
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.cage}/bin/cage -s -- ${pkgs.greetd.regreet}/bin/regreet";
-        user = "greeter";
-      };
-    };
-  };
 
   # --- SYSTEM-LEVEL PROGRAMS ---
   # Hyprland system enablement (handles drivers/portals)
