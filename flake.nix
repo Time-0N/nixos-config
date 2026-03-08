@@ -12,6 +12,7 @@
 
     hypr-bucket.url = "github:Time-0N/hypr-bucket";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    gazelle.url = "github:Zeus-Deus/gazelle-tui";
   };
 
   outputs =

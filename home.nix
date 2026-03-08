@@ -12,8 +12,7 @@ let
 in
 {
   imports = [
-    ./modules/home/waybar
-    ./modules/home/hyprland
+    ./modules/home/default.nix
   ];
 
   home.username = "timeon";
@@ -51,10 +50,11 @@ in
     pkgs.evince
     pkgs.ffmpegthumbnailer
     pkgs.nautilus
+    pkgs.nemo
     pkgs.pinta
+    pkgs.yazi
 
     pkgs.papirus-icon-theme
-    pkgs.apple-cursor
 
     # Wine and Proton
     pkgs.wineWow64Packages.staging
@@ -128,14 +128,8 @@ in
     "nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/nvim";
     "kitty".source = ./dotfiles/kitty;
-    "gtk-3.0".source = ./dotfiles/gtk-3.0;
-    "gtk-4.0".source = ./dotfiles/gtk-4.0;
     "Kvantum".source = ./dotfiles/Kvantum;
     "hyprlock".source = ./dotfiles/hyprlock;
-  };
-
-  home.file = {
-    ".p10k.zsh".source = ./dotfiles/.p10k.zsh;
   };
 
   home.sessionVariables = {
@@ -209,29 +203,6 @@ in
       ls = "lsd";
     };
 
-    # 4. INSTANT PROMPT (Goes at the very top)
-    initContent = lib.mkMerge [
-      (lib.mkBefore ''
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
-      '')
-      ''
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-
-        # PATH Exports
-        export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
-        export PATH="$PATH:$ANDROID_HOME/emulator"
-        export PATH="$PATH:$ANDROID_HOME/platform-tools"
-        export PATH="$HOME/.local/bin:$PATH"
-
-        # GHCUP
-        [ -f "${config.home.homeDirectory}/.ghcup/env" ] && . "/home/timeon/.ghcup/env"
-
-        # Powerlevel10k Config
-        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      ''
-    ];
   };
 
   programs.ssh = {
@@ -254,39 +225,6 @@ in
     desktop = "${config.home.homeDirectory}/desktop";
     publicShare = "${config.home.homeDirectory}/public";
     templates = "${config.home.homeDirectory}/templates";
-  };
-
-  # This handles GTK 2/3/4 and icon themes
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Materia-dark";
-      package = pkgs.materia-theme;
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    cursorTheme = {
-      name = "macOS";
-      package = pkgs.apple-cursor;
-      size = 24;
-    };
-  };
-
-  # This is for dark theme in GNOME apps under hyprland
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-  };
-
-  # This forces the cursor to work across Hyprland and XWayland apps
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.apple-cursor;
-    name = "macOS";
-    size = 24;
   };
 
   # Let Home Manager install and manage itself

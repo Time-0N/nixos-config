@@ -26,6 +26,21 @@
     '';
   };
 
+  # --- Kernel Params ---
+  boot.kernelParams = [
+    "consoleblank=60"
+    "quiet"
+    "systemd.show_status=auto"
+    "splash"
+    "boot.shell_on_fail"
+    "loglevel=3"
+    "rd.systemd.show_status=auto"
+    "rd.udev.log_level=3"
+    "udev.log_priority=3"
+  ];
+  boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
+
   # --- NETWORKING ---
   networking.hostName = "mercury";
   networking.networkmanager.enable = true;
@@ -59,6 +74,8 @@
   # --- SYSTEM-LEVEL PROGRAMS ---
   # Hyprland system enablement (handles drivers/portals)
   programs.hyprland.enable = true;
+
+  programs.dconf.enable = true;
 
   programs.steam = {
     enable = true;

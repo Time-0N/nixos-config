@@ -13,21 +13,21 @@
 
       listener = [
         {
-          timeout = 120;
+          #timeout = 120;
           # no on-timeout: used as a warning threshold
         }
         {
-          timeout = 140;
-          on-timeout = "sh -c 'pidof hyprlock || hyprlock'";
+          #timeout = 140;
+          #on-timeout = "sh -c 'pidof hyprlock || hyprlock'";
         }
         {
-          timeout = 180;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
+          #timeout = 180;
+          #on-timeout = "hyprctl dispatch dpms off";
+          #on-resume = "hyprctl dispatch dpms on";
         }
         {
-          timeout = 1800;
-          on-timeout = "systemctl suspend";
+          #timeout = 1800;
+          #on-timeout = "systemctl suspend";
         }
       ];
     };

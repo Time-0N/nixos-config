@@ -59,6 +59,12 @@ in
 
       # XWayland dragging fix
       "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false, no_focus on"
+
+      # Gazelle TUI pop-up
+      "match:class ^(gazelle-network)$, float on"
+      "match:class ^(gazelle-network)$, center on"
+      "match:class ^(gazelle-network)$, size 800 800"
+
     ];
 
     # Workspace Rules

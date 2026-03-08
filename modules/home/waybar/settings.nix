@@ -57,8 +57,8 @@ in
         tooltip-format-wifi = "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}";
         tooltip-format-ethernet = " {ifname}\nIP: {ipaddr}\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}";
         tooltip-format-disconnected = "Disconnected";
-        on-click = "nm-connection-editor";
-        on-click-right = "nm-connection-editor";
+        on-click = "kitty --class gazelle-network gazelle";
+        on-click-right = "kitty --class gazelle-network gazelle";
         interval = 1;
       };
 
