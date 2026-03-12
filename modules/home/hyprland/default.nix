@@ -21,6 +21,12 @@
     '';
   };
 
+  xdg.configFile."hypr/xdph.conf".text = ''
+    screencopy {
+      allow_token_by_default = true
+    }
+  '';
+
   home.activation.createMonitorsConf = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         MONITORS_CONF="$HOME/.config/hypr/monitors.conf"
         if [ ! -f "$MONITORS_CONF" ]; then
