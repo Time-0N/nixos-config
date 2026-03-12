@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
-  gtk-theme-name = "Materia-dark";
-  gtk-theme = pkgs.materia-theme;
+  gtk-theme-name = "Colloid-Dark";
+  gtk-theme = pkgs.colloid-gtk-theme;
   icon-theme-name = "Papirus-Dark";
   cursor-name = "macOS";
   cursor-theme = pkgs.apple-cursor;
@@ -36,6 +36,13 @@ in
     };
 
     gtk3 = {
+      bookmarks = [
+        "file://${config.home.homeDirectory}/downloads"
+        "file://${config.home.homeDirectory}/pictures"
+        "file://${config.home.homeDirectory}/videos"
+        "file://${config.home.homeDirectory}/documents"
+      ];
+
       extraConfig = {
         gtk-application-prefer-dark-theme = true;
       };

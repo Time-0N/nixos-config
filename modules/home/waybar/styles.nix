@@ -10,7 +10,7 @@ in
     * {
       min-height: 0;
       font-family: "CodeNewRoman Nerd Font Propo";
-      font-size: 16pt;
+      font-size: 15pt;
       font-weight: bold;
     }
 

@@ -10,7 +10,7 @@ in
     {
       layer = "top";
       position = "top";
-      height = 36;
+      height = 16;
       margin-top = 10;
       margin-bottom = 0;
       margin-left = 0;
