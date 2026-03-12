@@ -1,13 +1,13 @@
 ''
   /* ── Palette ───────────────────────────────────────────────────────────── */
-  @define-color color0  #cc241d; /* Dark Red      */
-  @define-color color1  #fe8019; /* Bright Orange */
-  @define-color color2  #b8bb26; /* Soft Green    */
-  @define-color color3  #83a598; /* Muted Cyan    */
-  @define-color color4  #fabd2f; /* Vibrant Yellow */
-  @define-color color5  #d3869b; /* Soft Pink     */
-  @define-color color6  #b16286; /* Warm Purple   */
-  @define-color color7  #8ec07c; /* Light Green   */
+  @define-color color0  #c53f67;
+  @define-color color1  #d2b48c;
+  @define-color color2  #8ec07c;
+  @define-color color3  #919aae;
+  @define-color color4  #ffc8d8;
+  @define-color color5  #a3acaf;
+  @define-color color6  #bfd7ea;
+  @define-color color7  #848598;
 
   /* ── Backgrounds ───────────────────────────────────────────────────────── */
   @define-color background        #1d2021;

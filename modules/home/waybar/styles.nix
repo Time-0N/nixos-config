@@ -6,105 +6,155 @@ in
 {
   programs.waybar.style = colors + ''
     /* ── Base ──────────────────────────────────────────────────────────────── */
+
     * {
-      font-size:   15px;
+      min-height: 0;
       font-family: "CodeNewRoman Nerd Font Propo";
+      font-size: 16pt;
+      font-weight: bold;
     }
 
-    window#waybar { all: unset; }
+    #cpu, #memory, #network, #tray, #wireplumber, #idle_inhibitor, #clock, #custom-startmenu, #bluetooth {
+      padding: 0px 10px;
+      margin: 5px 4px;
+      background: alpha(@background, .5);
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 
-    /* ── Bar sections ───────────────────────────────────────────────────────── */
-    .modules-left {
-      padding:       7px;
-      margin:        10px 0px 5px 10px;
-      border-radius: 10px;
-      background:    alpha(@background, .6);
-      box-shadow:    0px 0px 2px rgba(0,0,0,.6);
-    }
-    .modules-center {
-      padding:       7px;
-      margin:        10px 0px 5px 10px;
-      border-radius: 10px;
-      background:    alpha(@background, .6);
-      box-shadow:    0px 0px 2px rgba(0,0,0,.6);
-    }
-    .modules-right {
-      padding:       7px;
-      margin:        10px 10px 5px 0px;
-      border-radius: 10px;
-      background:    alpha(@background, .6);
-      box-shadow:    0px 0px 2px rgba(0,0,0,.6);
+      border-top: 1px solid alpha(white, 0.25);
+      border-left: 1px solid alpha(white, 0.12);
+      border-right: 1px solid alpha(white, 0.05);
+      border-bottom: 1px solid alpha(white, 0.05);
     }
 
-    .tooltip {
+    tooltip {
       background: @background;
-      color:      @color0;
+      border-radius: 7px;
+      border: 2px solid @color4;
+    }
+
+    window#waybar {
+      background: rgba(0,0,0,0);
     }
 
     /* ── Clock ──────────────────────────────────────────────────────────────── */
-    #clock { padding: 0px 5px; color: @color6; transition: all .3s ease; }
+    #clock {
+      margin-right: 10px;
+      color: @color6;
+    }
     #clock:hover { color: @color4; }
 
     /* ── Idle inhibitor ─────────────────────────────────────────────────────── */
-    #idle_inhibitor { padding: 0px 5px; color: @color5; transition: all .3s ease; }
-    #idle_inhibitor:hover           { color: @color4; }
-    #idle_inhibitor.activated       { color: @color2; }
+    #idle_inhibitor {
+      margin-right: 0px;
+      border-right: 0px;
+      border-radius: 10px 0px 0px 10px;
+      color: @color6;
+    }
+    #idle_inhibitor:hover { color: @color4; }
+    #idle_inhibitor.activated { color: @color2; }
     #idle_inhibitor.activated:hover { color: @color4; }
 
     /* ── Workspaces ─────────────────────────────────────────────────────────── */
-    #workspaces { padding: 0px 5px; }
+
+    #workspaces {
+      padding: 0px 10px;
+      border-radius: 16px;
+      background: alpha(@background, .5);
+      color: @color6;
+
+      border-top: 1px solid alpha(white, 0.25);
+      border-left: 1px solid alpha(white, 0.12);
+      border-right: 1px solid alpha(white, 0.05);
+      border-bottom: 1px solid alpha(white, 0.05);
+    }
     #workspaces button {
-      all:        unset;
-      padding:    0px 5px;
-      color:      alpha(@color5, .4);
-      transition: all .2s ease;
+      margin: 6px;
+      border-radius: 16px;
+      color: alpha(@color5, .4);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     #workspaces button:hover {
-      color:       @second-background;
-      text-shadow: 0px 0px 1.5px rgba(0,0,0,.5);
-      transition:  all 1s ease;
+      border: solid transparent;
     }
     #workspaces button.active {
-      color:       @color6;
-      text-shadow: 0px 0px 2px rgba(0,0,0,.5);
+      background: @color6;
+      color: @background;
+      min-width: 40px;
     }
     #workspaces button.empty {
-      color:       @second-background;
-      text-shadow: 0px 0px 1.5px rgba(0,0,0,.2);
+      border-radius: 16px;
+      color: @second-background;
     }
     #workspaces button.empty:hover {
-      text-shadow: 0px 0px 1.5px rgba(0,0,0,.5);
-      transition:  all 1s ease;
+      margin: 5px;
+      border-radius: 16px;
+      border: solid transparent;
     }
     #workspaces button.empty.active {
-      color:       @color6;
-      text-shadow: 0px 0px 2px rgba(0,0,0,.5);
+      color: @color7;
     }
 
     /* ── Bluetooth ──────────────────────────────────────────────────────────── */
-    #bluetooth { padding: 0px 5px; color: @color1; transition: all .3s ease; }
+    #bluetooth {
+      margin-right: 0px;
+      margin-left: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-radius: 0px 0px 0px 0px;
+      color: @color1;
+    }
     #bluetooth.on, #bluetooth.connected  { color: @color2; }
     #bluetooth.off, #bluetooth.disabled  { color: @color0; }
     #bluetooth.on:hover, #bluetooth.off:hover,
     #bluetooth.connected:hover, #bluetooth.disabled:hover { color: @color4; }
 
     /* ── Network ────────────────────────────────────────────────────────────── */
-    #network { padding: 0px 5px; color: @color6; transition: all .3s ease; }
+    #network {
+      margin-right: 0px;
+      margin-left: 0px;
+      border-left: 0px;
+      border-radius: 0px 10px 10px 0px;
+      color: @color6;
+    }
     #network:hover { color: @color4; }
-
-    /* ── Tray ───────────────────────────────────────────────────────────────── */
-    #tray, #tray menu *, #tray menu separator {
-      padding: 0px 5px; transition: all .3s ease;
+    #network.linked {
+      color: @color7;
+    }
+    #network.disconnected,
+    #network.disabled {
+      color: @color1;
     }
 
-    /* ── CPU / Memory / GPU ─────────────────────────────────────────────────── */
-    #cpu    { padding: 0px 5px; color: @color3; transition: all .3s ease; }
-    #memory { padding: 0px 5px; color: @color7; transition: all .3s ease; }
-    #memory:hover  { color: @color4; }
-    #custom-gpu    { padding: 0px 5px; color: @color4; transition: all .3s ease; }
+    /* ── Tray ───────────────────────────────────────────────────────────────── */
+    #tray {
+    }
 
-    /* ── Wireplumber ────────────────────────────────────────────────────────── */
-    #wireplumber { padding: 0px 5px; color: @color1; transition: all .3s ease; }
+    /* ── CPU / Memory ─────────────────────────────────────────────────── */
+    #cpu {
+      color: @color3;
+    }
+    #memory {
+      color: @color3;
+    }
+    #memory:hover  { color: @color4; }
+    #cpu:hover { color: @color4; }
+
+    #wireplumber.sink {
+      color: @color1;
+      border-radius: 10px 0px 0px 10px;
+      margin-right: 0px;
+      border-right: 0px;
+      margin-left: 5px;
+    }
+
+    #wireplumber.mic {
+      color: @color1;
+      border-radius: 0px 10px 10px 0px;
+      margin-left: 0px;
+      border-left: 0px;
+      margin-right: 5px;
+    }
     #wireplumber:hover       { color: @color4; }
     #wireplumber.muted       { color: @color0; }
     #wireplumber.muted:hover { color: @color4; }
@@ -117,27 +167,12 @@ in
     #custom-cava { padding: 0px 5px; color: @color3; transition: all .3s ease; }
     #custom-cava:hover { color: @color4; }
 
-    /* ── Power ──────────────────────────────────────────────────────────────── */
-    #custom-power { padding: 0px 5px; color: @color5; transition: all .3s ease; }
-    #custom-power:hover { color: @color0; }
+    /* ── Startmenu ──────────────────────────────────────────────────────────────── */
+    #custom-startmenu {
+      margin-left: 10px;
+      color: #7ebae4;
+    }
+    #custom-startmenu:hover { color: @color4; }
 
-    /* ── OS logo ────────────────────────────────────────────────────────────── */
-    #custom-os                { padding: 0px 5px; }
-    #custom-os.os-arch        { color: #1793d1; }
-    #custom-os.os-ubuntu      { color: #e95420; }
-    #custom-os.os-debian      { color: #d70751; }
-    #custom-os.os-fedora      { color: #51a2da; }
-    #custom-os.os-nixos       { color: #7ebae4; }
-    #custom-os.os-opensuse    { color: #73ba25; }
-    #custom-os.os-manjaro     { color: #35bf5c; }
-    #custom-os.os-gentoo      { color: #54487a; }
-    #custom-os.os-void        { color: #478061; }
-    #custom-os.os-pop_os      { color: #48b9c7; }
-    #custom-os.os-elementary  { color: #64baff; }
-    #custom-os.os-endeavouros { color: #7F3FBF; }
-    #custom-os.os-linux       { color: #b4c8be; }
-
-    /* ── Notifications ──────────────────────────────────────────────────────── */
-    #custom-notification { padding: 0px 5px; color: @color7; transition: all .3s ease; }
   '';
 }

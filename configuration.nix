@@ -1,5 +1,6 @@
 {
   pkgs,
+  vars,
   ...
 }:
 
@@ -85,7 +86,7 @@
   services.flatpak.enable = true;
   nixpkgs.config.allowUnfree = true;
 
-  time.timeZone = "Europe/Zurich";
+  time.timeZone = vars.timeZone;
 
   # --- FILEMANAGER ---
   services.gvfs.enable = true;

@@ -1,5 +1,5 @@
 {
-  description = "Time-ON Hyprland setup";
+  description = "My NixOS";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -22,10 +22,13 @@
       home-manager,
       ...
     }@inputs:
+    let
+      vars = import ./hosts/mercury/variables.nix;
+    in
     {
       nixosConfigurations.mercury = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs vars; };
         modules = [
           ./configuration.nix
           # Add the home-manager module here
@@ -33,7 +36,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs vars; };
             home-manager.users.timeon = import ./home.nix;
             # Makes backups of old configs. (Must be deleted manualy!)
             home-manager.backupFileExtension = "backup";

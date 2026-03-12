@@ -10,16 +10,18 @@
 
       shadow = {
         enabled = true;
-        range = 4;
-        render_power = 3;
-        color = "rgba(1a1a1aee)";
+        range = 10;
+        render_power = 2;
+        color = "rgba(00000050)";
       };
 
       blur = {
         enabled = true;
-        size = 8;
-        passes = 2;
-        vibrancy = 0.1696;
+        size = 3;
+        passes = 3;
+        new_optimizations = true;
+        ignore_opacity = true;
+        xray = true;
       };
     };
 

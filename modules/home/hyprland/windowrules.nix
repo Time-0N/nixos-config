@@ -78,8 +78,14 @@ in
       "match:namespace ^(logout_dialog)$, animation slide top"
       "match:namespace ^(waybar)$, animation slide down"
       "match:namespace ^(wallpaper)$, animation fade 50%"
+
+      # Hyprbucket
       "match:namespace ^(hyprbucket)$, blur on"
       "match:namespace ^(hyprbucket)$, ignore_alpha 0.5"
+
+      # Waybar
+      "match:namespace ^(waybar)$, blur on"
+      "match:namespace ^(waybar)$, ignore_alpha 0.5"
     ];
 
     # XWayland scaling fix

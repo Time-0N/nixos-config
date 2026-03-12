@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, vars, ... }:
 
 let
   scripts = import ../../../scripts/waybar { inherit pkgs; };
@@ -9,27 +9,28 @@ in
   programs.waybar.settings = [
     {
       layer = "top";
-      height = 16;
-      margin-top = 14;
+      position = "top";
+      height = 36;
+      margin-top = 10;
       margin-bottom = 0;
       margin-left = 0;
       margin-right = 0;
       spacing = 0;
 
       modules-left = [
-        "custom/os"
-        "tray"
-        "mpris"
+        "custom/startmenu"
+        "wireplumber#sink"
+        "wireplumber#mic"
+        "cpu"
+        "memory"
       ];
       modules-center = [ "hyprland/workspaces" ];
       modules-right = [
         "idle_inhibitor"
         "bluetooth"
         "network"
-        "wireplumber#sink"
-        "wireplumber#mic"
+        "tray"
         "clock"
-        "custom/power"
       ];
 
       # ── Module definitions ──────────────────────────────────────────────
@@ -44,7 +45,7 @@ in
       network = {
         format = "{ifname}";
         format-wifi = "{icon}";
-        format-ethernet = "󱘖";
+        format-ethernet = "󰈀";
         format-disconnected = "Disconnected ⚠";
         format-icons = [
           "󰤯"
@@ -81,8 +82,8 @@ in
       };
 
       mpris = {
-        format = "{status_icon} {title} - {artist}";
-        format-paused = "{status_icon} {title} - {artist}";
+        format = "{status_icon} {title}";
+        format-paused = "{status_icon} {title}";
         status-icons = {
           playing = "";
           paused = "";
@@ -97,12 +98,6 @@ in
         on-click-right = "playerctl next";
       };
 
-      "custom/os" = {
-        exec = "${scripts.osLogo}/bin/waybar-os-logo";
-        return-type = "json";
-        format = "{}";
-      };
-
       tray = {
         icon-size = 20;
         spacing = 10;
@@ -111,11 +106,25 @@ in
         smooth-scrolling-threshold = 1.0;
       };
 
+      "cpu" = {
+        interval = 5;
+        format = " {usage:2}%";
+        tooltip = true;
+      };
+
+      "memory" = {
+        interval = 5;
+        format = " {}%";
+        tooltip = true;
+        on-click = "${vars.terminal} -e btop";
+      };
+
       "hyprland/workspaces" = {
-        format = "{icon}";
+        format = "{name}";
         format-icons = {
-          default = "";
-          active = "";
+          default = " ";
+          active = " ";
+          urgent = " ";
         };
         persistent-workspaces = {
           "*" = 1;
@@ -128,39 +137,45 @@ in
       idle_inhibitor = {
         format = "{icon}";
         format-icons = {
-          activated = "󰌾";
-          deactivated = "󰌵";
+          activated = "";
+          deactivated = "";
         };
         tooltip-format-activated = "Idle inhibitor: ON";
         tooltip-format-deactivated = "Idle inhibitor: OFF";
       };
 
       clock = {
-        format = "  {:%H:%M %a}";
-        format-alt = "  {:%d/%m/%Y  %H:%M:%S}";
-        tooltip-format = "<tt><small>{calendar}</small></tt>";
+        format = "<span>  {:%H:%M %a}</span>";
+        "tooltip-format" = "{calendar}";
         calendar = {
           mode = "month";
-          mode-mon-col = 3;
-          weeks-pos = "right";
-          on-scroll = 1;
-          on-click-right = "mode";
+          "mode-mon-col" = 3;
+          "on-scroll" = 1;
+          "on-click-right" = "mode";
           format = {
             months = "<span color='#ffead3'><b>{}</b></span>";
             days = "<span color='#ecc6d9'><b>{}</b></span>";
-            weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+            weeks = "<span color='#99ffdd'><b>{%W}</b></span>";
             weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-            today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+            today = "<span color='#ff6699'><b>{}</b></span>";
           };
         };
-        interval = 1;
+        actions = {
+          "on-click-middle" = "mode";
+          "on-click-right" = "shift_up";
+          "on-click" = "shift_down";
+        };
       };
 
-      "custom/power" = {
-        format = "";
-        on-click = "wlogout";
+      "custom/startmenu" = {
         tooltip = false;
+        format = "";
+        on-click = "wlogout";
+        # exec = "rofi -show drun";
+        #on-click = "sleep 0.1 && rofi-launcher";
+        #on-click = "sleep 0.1 && nwg-drawer -mb 200 -mt 200 -mr 200 -ml 200";
       };
+
     }
   ];
 }

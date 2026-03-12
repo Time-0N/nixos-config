@@ -1,8 +1,8 @@
 {
-  lib,
   config,
   pkgs,
   inputs,
+  vars,
   ...
 }:
 
@@ -134,8 +134,8 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = "zen";
-    TERMINAL = "kitty";
+    BROWSER = vars.browser;
+    TERMINAL = vars.terminal;
     # Add other vars here
   };
 
