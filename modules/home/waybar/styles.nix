@@ -87,8 +87,7 @@ in
       color: @second-background;
     }
     #workspaces button.empty:hover {
-      margin: 5px;
-      border-radius: 16px;
+      color: alpha(@color5, .4);
       border: solid transparent;
     }
     #workspaces button.empty.active {
