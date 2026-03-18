@@ -6,39 +6,32 @@
     settings = {
       "$schema" = "https://starship.rs/config-schema.json";
 
-      format = ''
-        [░▒▓](fg:white)\
-        [$os ](bg:white fg:#080808)\
-        [](fg:white bg:blue)\
-        [ $directory ](bg:blue fg:#e4e4e4)\
-        $git_branch\
-        $git_status\
-        $fill\
-        $status\
-        $cmd_duration\
-        $jobs\
-        [](fg:white)\
-        [ $time ](bg:white fg:#080808)\
-        [▓▒░](fg:white)\
-        $line_break\
-        $character'';
+      format =
+        "[░▒▓](fg:white)"
+        + "[ 󱄅 ](bg:white fg:nix-blue)"
+        + "$username"
+        + "[](fg:white bg:blue)"
+        + "[ $directory ](bg:blue fg:#e4e4e4)"
+        + "$git_branch"
+        + "$git_status"
+        + "$status"
+        + "$cmd_duration"
+        + "$jobs"
+        + "[](fg:white)"
+        + "[ $time ](bg:white fg:#080808)"
+        + "[▓▒░](fg:white)"
+        + "$line_break"
+        + "$character";
 
       add_newline = true;
 
-      os = {
-        format = "[$symbol]($style)";
-        style = "bg:white fg:#080808";
-        disabled = false;
-        symbols = {
-          NixOS = "󱄅 ";
-          Linux = " ";
-          Arch = " ";
-          Ubuntu = " ";
-          Debian = " ";
-          Fedora = " ";
-          Windows = " ";
-          Macos = " ";
-        };
+      palette = "timertheme";
+
+      palettes.timertheme = {
+        color_white = "#e4e4e4";
+        color_nixblue = "#7ebae4";
+        color_bg1 = "#3c3836";
+        color_bg3 = "#665c54";
       };
 
       directory = {
@@ -50,6 +43,13 @@
         truncate_to_repo = true;
         truncation_symbol = "…/";
         repo_root_style = "bg:blue fg:white bold";
+        substitutions = {
+          "documents" = "󰈙 ";
+          "downloads" = " ";
+          "music" = "󰝚 ";
+          "pictures" = " ";
+          "developer" = "󰲋 ";
+        };
       };
 
       git_branch = {
@@ -115,9 +115,9 @@
 
       username = {
         format = "[$user]($style)";
-        style_user = "fg:yellow";
-        style_root = "fg:red bold";
-        show_always = false;
+        style_user = "bg:white fg:nix-blue";
+        style_root = "bg:white fg:red bold";
+        show_always = true;
       };
 
       hostname = {
