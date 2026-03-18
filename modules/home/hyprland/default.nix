@@ -7,9 +7,11 @@
     ./environment.nix
     ./general.nix
     ./hypridle.nix
+    ./hyprlock.nix
     ./input.nix
     ./keybinds.nix
     ./windowrules.nix
+    ./wallpaper-slideshow.nix
   ];
 
   wayland.windowManager.hyprland = {

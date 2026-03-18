@@ -5,6 +5,6 @@
     ./gazelle.nix
     ./waybar
     ./hyprland
-    ./p10k
+    ./starship.nix
   ];
 }

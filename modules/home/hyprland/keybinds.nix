@@ -26,7 +26,7 @@ in
       "${mainMod}, F, fullscreen"
       "${mainMod}, P, pseudo"
       "${mainMod}, J, togglesplit"
-      "${mainMod}, L, exec, hyprlock --config /home/timeon/.config/hyprlock/hyprlock.conf"
+      "${mainMod}, L, exec, hyprlock"
       "${mainMod}, Tab, changegroupactive, f"
       # Screenshot
       ''${mainMod} SHIFT, S, exec, grim -g "$(slurp -o -r -c '##ff0000ff')" -t ppm - | satty --filename - --fullscreen --output-filename ~/pictures/screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png''

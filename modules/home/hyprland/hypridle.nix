@@ -1,5 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    wl-gammarelay-rs
+  ];
+
   services.hypridle = {
     enable = true;
 
@@ -8,13 +12,14 @@
         lock_cmd = "sh -c 'pidof hyprlock || hyprlock'";
         before_sleep_cmd = "sh -c 'pidof hyprlock || hyprlock'";
         inhibit_sleep = 3;
-        after_sleep_cmd = "hyprctl dispatch dpms on";
+        after_sleep_cmd = "hyprctl dispatch dpms on && busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 1.0";
       };
 
       listener = [
         {
-          #timeout = 120;
-          # no on-timeout: used as a warning threshold
+          timeout = 120;
+          on-timeout = "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 0.5";
+          on-resume = "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 1.0";
         }
         {
           #timeout = 140;
@@ -31,5 +36,18 @@
         }
       ];
     };
+  };
+
+  systemd.user.services.wl-gammarelay-rs = {
+    Unit = {
+      Description = "wl-gammarelay-rs";
+      After = "graphical-session.target";
+      PartOf = "graphical-session.target";
+    };
+    Service = {
+      ExecStart = "${pkgs.wl-gammarelay-rs}/bin/wl-gammarelay-rs run";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 }

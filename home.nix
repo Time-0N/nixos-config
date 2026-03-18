@@ -32,9 +32,6 @@ in
     pkgs.slurp
     pkgs.satty
     pkgs.wl-clipboard
-    pkgs.hypridle
-    pkgs.hyprlock
-    pkgs.swww
     pkgs.playerctl
     pkgs.nwg-displays
     pkgs.wlr-randr
@@ -53,6 +50,8 @@ in
     pkgs.nemo
     pkgs.pinta
     pkgs.yazi
+    pkgs.screen
+    pkgs.gimp2-with-plugins
 
     pkgs.papirus-icon-theme
 
@@ -120,8 +119,7 @@ in
 
     # Hyprbucket
     inputs.hypr-bucket.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ]
-  ++ nixScripts;
+  ];
 
   # AUTOMATIC DOTFILES: This links your dotfile folders directly
   xdg.configFile = {
@@ -129,7 +127,6 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/nvim";
     "kitty".source = ./dotfiles/kitty;
     "Kvantum".source = ./dotfiles/Kvantum;
-    "hyprlock".source = ./dotfiles/hyprlock;
   };
 
   home.sessionVariables = {
@@ -212,20 +209,6 @@ in
 
   services.ssh-agent.enable = true;
   # --- END OF PROGRAMS
-
-  xdg.userDirs = {
-    enable = true;
-    createDirectories = true; # Automatically create them if they don't exist
-
-    download = "${config.home.homeDirectory}/downloads";
-    documents = "${config.home.homeDirectory}/documents";
-    music = "${config.home.homeDirectory}/music";
-    pictures = "${config.home.homeDirectory}/pictures";
-    videos = "${config.home.homeDirectory}/videos";
-    desktop = "${config.home.homeDirectory}/desktop";
-    publicShare = "${config.home.homeDirectory}/public";
-    templates = "${config.home.homeDirectory}/templates";
-  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
