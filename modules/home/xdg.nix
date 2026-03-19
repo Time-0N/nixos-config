@@ -46,6 +46,12 @@ in
     };
     portal = {
       enable = true;
+      config = {
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
+      };
+    };
       extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
       configPackages = [ pkgs.hyprland ];
     };
