@@ -24,7 +24,6 @@
               "--asterisks"
               "--greeting 'Welcome to the system!'"
               "--theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=yellow;container=black;input=red'"
-              "--cmd \"sh -c 'start-hyprland > /dev/null 2>&1'\""
             ];
           in
           "${pkgs.tuigreet}/bin/tuigreet ${builtins.concatStringsSep " " tuigreetFlags}";

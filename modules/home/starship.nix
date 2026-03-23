@@ -2,9 +2,9 @@
 {
   programs.starship = {
     enable = true;
+    enableZshIntegration = true;
     package = pkgs.starship;
     settings = {
-      "$schema" = "https://starship.rs/config-schema.json";
 
       format = lib.concatStrings [
         "[░▒▓](color_black2)"
@@ -85,7 +85,7 @@
       };
 
       transient_prompt = {
-        format = "[❯ ](bold fg:color_green)";
+        format = "[❯ ](bold green)";
       };
 
       git_branch = {
@@ -164,7 +164,7 @@
       };
 
       os.symbols = {
-        Nixos = "󱄅";
+        NixOS = "󱄅";
       };
 
       localip = {
