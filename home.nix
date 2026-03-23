@@ -6,10 +6,6 @@
   ...
 }:
 
-let
-  nixScripts = import ./scripts { inherit pkgs; };
-
-in
 {
   imports = [
     ./modules/home/default.nix
@@ -35,7 +31,6 @@ in
     pkgs.playerctl
     pkgs.nwg-displays
     pkgs.wlr-randr
-    pkgs.zsh-powerlevel10k
     pkgs.wlogout
     pkgs.pavucontrol
     pkgs.cava
@@ -113,9 +108,6 @@ in
     pkgs.qt6Packages.qt6ct
     pkgs.libsForQt5.qtstyleplugin-kvantum
     pkgs.qt6Packages.qtstyleplugin-kvantum
-
-    # Zen Browser
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Hyprbucket
     inputs.hypr-bucket.packages.${pkgs.stdenv.hostPlatform.system}.default

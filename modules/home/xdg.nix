@@ -47,11 +47,14 @@ in
     portal = {
       enable = true;
       config = {
-      hyprland = {
-        default = [ "hyprland" "gtk" ];
-        "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
+        hyprland = {
+          default = [
+            "hyprland"
+            "gtk"
+          ];
+          "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
+        };
       };
-    };
       extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
       configPackages = [ pkgs.hyprland ];
     };
@@ -67,6 +70,7 @@ in
       desktop = "${config.home.homeDirectory}/desktop";
       publicShare = "${config.home.homeDirectory}/public";
       templates = "${config.home.homeDirectory}/templates";
+      developer = "${config.home.homeDirectory}/developer";
     };
   };
 }

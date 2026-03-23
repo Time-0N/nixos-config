@@ -6,5 +6,6 @@
     ./waybar
     ./hyprland
     ./starship.nix
+    ./zen-browser.nix
   ];
 }

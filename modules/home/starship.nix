@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.starship = {
     enable = true;
@@ -6,81 +6,109 @@
     settings = {
       "$schema" = "https://starship.rs/config-schema.json";
 
-      format =
-        "[░▒▓](fg:white)"
-        + "[ 󱄅 ](bg:white fg:nix-blue)"
-        + "$username"
-        + "[](fg:white bg:blue)"
-        + "[ $directory ](bg:blue fg:#e4e4e4)"
-        + "$git_branch"
-        + "$git_status"
-        + "$status"
-        + "$cmd_duration"
-        + "$jobs"
-        + "[](fg:white)"
-        + "[ $time ](bg:white fg:#080808)"
-        + "[▓▒░](fg:white)"
-        + "$line_break"
-        + "$character";
+      format = lib.concatStrings [
+        "[░▒▓](color_black2)"
+        "$os"
+        "$time"
+        "[](fg:color_black2 bg:color_green)"
+        "$hostname"
+        "$localip"
+        "[](fg:color_green bg:color_blue2)"
+        "$username"
+        "[](fg:color_blue2 bg:color_yellow)"
+        "$shlvl"
+        "$sudo"
+        "[](fg:color_yellow bg:color_red)"
+        "$git_branch"
+        "$git_status"
+        "$package"
+        "$docker_context"
+        "[](fg:color_red bg:color_white3)"
+        "$directory"
+        "[](fg:color_white3)"
+        "$line_break"
+        "$character"
+        "[ ](fg:color_fg)"
+      ];
+
+      right_format = lib.concatStrings [
+        "$status"
+        "$cmd_duration"
+      ];
+
+      line_break = {
+        disabled = false;
+      };
 
       add_newline = true;
 
       palette = "timertheme";
 
       palettes.timertheme = {
-        color_white = "#e4e4e4";
-        color_nixblue = "#7ebae4";
-        color_bg1 = "#3c3836";
-        color_bg3 = "#665c54";
+        color_fg = "#d8dee9";
+        color_bg = "#2e3440";
+        color_red = "#bf616a";
+        color_green = "#a3be8c";
+        color_purple = "#b48ead";
+        color_yellow = "#ebcb8b";
+        color_orange = "#d08770";
+        color_white1 = "#eceff4";
+        color_white2 = "#e5e9f0";
+        color_white3 = "#d8dee9";
+        color_black1 = "#2e3440";
+        color_black2 = "#3b4252";
+        color_black3 = "#434c5e";
+        color_black4 = "#4c566a";
+        color_blue1 = "#5e81ac";
+        color_blue2 = "#81a1c1";
+        color_blue3 = "#88c0d0";
+        color_blue4 = "#8fbcbb";
       };
 
       directory = {
-        format = "[$path]($style)[$read_only]($read_only_style)";
-        style = "bg:blue fg:#e4e4e4 bold";
-        read_only = " 󰌾";
-        read_only_style = "bg:blue fg:#e4e4e4";
-        truncation_length = 3;
+        disabled = false;
+        read_only = "";
+        home_symbol = " ";
+        truncation_length = 6;
         truncate_to_repo = true;
-        truncation_symbol = "…/";
-        repo_root_style = "bg:blue fg:white bold";
-        substitutions = {
-          "documents" = "󰈙 ";
-          "downloads" = " ";
-          "music" = "󰝚 ";
-          "pictures" = " ";
-          "developer" = "󰲋 ";
-        };
+        truncation_symbol = " /";
+        #substitutions = {
+        #  "documents" = "󰈙 documents";
+        #  "downloads" = " downloads";
+        #  "music" = "󰝚 music";
+        #  "pictures" = " pictures";
+        #  "developer" = "󰲋 developer";
+        #};
+        read_only_style = "fg:color_red bg:color_white3";
+        style = "fg:color_bg bg:color_white3";
+        format = "($style)[$read_only]($read_only_style)[ $path ]($style)";
+      };
+
+      transient_prompt = {
+        format = "[❯ ](bold fg:color_green)";
       };
 
       git_branch = {
-        format = "[](fg:blue bg:green)[ $symbol$branch(:$remote_branch) ]($style)";
-        style = "bg:green fg:#080808";
-        symbol = " ";
+        symbol = "";
+        style = "bg:color_red";
+        format = "[[ $symbol $branch ](fg:color_fg bg:color_red)]($style)";
         truncation_length = 32;
         truncation_symbol = "…";
       };
 
       git_status = {
-        format = "([$all_status$ahead_behind ]($style))[](fg:green)";
-        style = "bg:green fg:#080808";
-        ahead = "⇡$count";
-        behind = "⇣$count";
-        diverged = "⇣$behind_count⇡$ahead_count";
-        stashed = "*$count";
-        conflicted = "~$count";
-        staged = "+$count";
-        modified = "!$count";
-        untracked = "?$count";
-        deleted = "";
-        renamed = "";
+        style = "bg:color_red";
+        format = "[[($all_status$ahead_behind )](fg:color_fg bg:color_red)]($style)";
       };
 
       character = {
-        success_symbol = "[❯](bold green)";
-        error_symbol = "[❯](bold red)";
-        vimcmd_symbol = "[❮](bold green)";
-        vimcmd_replace_one_symbol = "[▶](bold green)";
-        vimcmd_visual_symbol = "[V](bold green)";
+        disabled = false;
+        success_symbol = "[❯](bold fg:color_green)";
+        error_symbol = "[❯](bold fg:color_red)";
+        vimcmd_symbol = "[❮](bold fg:color_green)";
+        vimcmd_replace_one_symbol = "[▶](bold fg:color_purple)";
+        vimcmd_replace_symbol = "[▶](bold fg:color_purple)";
+        vimcmd_visual_symbol = "[V](bold fg:color_yellow)";
       };
 
       status = {
@@ -92,8 +120,8 @@
       };
 
       cmd_duration = {
-        format = "[$duration ]($style)";
-        style = "fg:yellow";
+        style = "fg:color_fg";
+        format = "[  $duration ]($style)";
         min_time = 3000;
         show_milliseconds = false;
       };
@@ -107,134 +135,70 @@
       };
 
       time = {
-        format = "[$time]($style)";
-        style = "bg:white fg:#080808";
-        time_format = "%H:%M:%S";
         disabled = false;
+        time_format = "%H:%M:%S";
+        style = "bg:color_black2";
+        format = "[[   $time ](fg:color_white3 bg:color_black2)]($style)";
       };
 
       username = {
-        format = "[$user]($style)";
-        style_user = "bg:white fg:nix-blue";
-        style_root = "bg:white fg:red bold";
+        disabled = false;
         show_always = true;
+        style_user = "fg:color_bg bg:color_blue2";
+        style_root = "fg:color_red bg:color_blue2";
+        format = "[  ]($style)[ $user ](fg:color_bg bg:color_blue2)";
       };
 
       hostname = {
-        format = "[@$hostname ]($style)";
-        style = "fg:yellow";
+        disabled = false;
         ssh_only = true;
+        ssh_symbol = " 󱘖 "; # 󱘖    󰣀
+        style = "fg:color_bg bg:color_green";
+        format = "[$ssh_symbol]($style)[ 󰍹  $hostname ]($style)";
       };
 
-      python = {
-        format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
-        style = "fg:#080808 bg:blue";
-        symbol = " ";
-      };
-
-      nodejs = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:green";
-        symbol = " ";
-      };
-
-      golang = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:blue";
-        symbol = " ";
-      };
-
-      rust = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:208";
-        symbol = " ";
-      };
-
-      ruby = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:red";
-        symbol = " ";
-      };
-
-      java = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:red bg:white";
-        symbol = " ";
-      };
-
-      lua = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:blue";
-        symbol = " ";
-      };
-
-      php = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:magenta";
-        symbol = " ";
-      };
-
-      haskell = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:yellow";
-        symbol = " ";
-      };
-
-      elixir = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:magenta";
-        symbol = " ";
-      };
-
-      erlang = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:#080808 bg:red";
-        symbol = " ";
-      };
-
-      dotnet = {
-        format = "[$symbol($version )]($style)";
-        style = "fg:white bg:magenta";
-        symbol = "󰋚 ";
-      };
-
-      nix_shell = {
-        format = "[$symbol$state( \\($name\\))]($style) ";
-        style = "fg:#080808 bg:blue";
-        symbol = " ";
-      };
-
-      terraform = {
-        format = "[$symbol$workspace ]($style)";
-        style = "fg:blue bg:black";
-        symbol = "󱁢 ";
-      };
-
-      kubernetes = {
-        format = "[$symbol$context( \\($namespace\\))]($style) ";
-        style = "fg:white bg:blue";
-        symbol = "󱃾 ";
+      os = {
         disabled = false;
+        style = "fg:color_white3 bg:color_black2";
+        format = "[ $symbol ]($style)";
       };
 
-      aws = {
-        format = "[$symbol($profile )(\\($region\\) )]($style)";
-        style = "fg:white bg:red";
-        symbol = "  ";
+      os.symbols = {
+        Nixos = "󱄅";
       };
 
-      gcloud = {
-        format = "[$symbol$account(@$domain)(\\($project\\))]($style) ";
-        style = "fg:white bg:blue";
-        symbol = " ";
-      };
-
-      direnv = {
-        format = "[$symbol$loaded/$allowed]($style) ";
-        style = "fg:yellow";
-        symbol = "direnv ";
+      localip = {
         disabled = false;
+        ssh_only = true;
+        style = "fg:color_bg bg:color_green";
+        format = "[ 󰩟 $localipv4 ]($style)";
       };
+
+      shlvl = {
+        disabled = false;
+        threshold = 2;
+        symbol = "";
+        style = "fg:color_bg bg:color_yellow";
+        format = "[ $symbol $shlvl ]($style)";
+      };
+
+      sudo = {
+        disabled = false;
+        symbol = "󰌆 ";
+        style = "fg:color_red bg:color_yellow";
+        format = "[ $symbol ]($style)";
+      };
+
+      package = {
+        format = "[  $version ](fg:color_fg bg:color_red)";
+      };
+
+      docker_context = {
+        symbol = "";
+        style = "bg:color_red";
+        format = "[[ $symbol( $context) ](fg:color_fg bg:color_red)]($style)";
+      };
+
     };
   };
 }

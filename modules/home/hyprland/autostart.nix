@@ -1,5 +1,10 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    xrandr
+    jq
+  ];
+
   wayland.windowManager.hyprland.settings.exec-once = [
     # Environment setup (should be first)
     "systemctl --user import-environment PATH"
@@ -13,7 +18,6 @@
     # UI Components
     "swww-daemon"
     "eww daemon"
-    "wallpaper-slideshow"
 
     # Idle management
     "hypridle"
