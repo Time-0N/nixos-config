@@ -7,7 +7,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/core/displaymanager.nix
+    ../../modules/core/default.nix
   ];
 
   # --- BOOTLOADER ---
@@ -19,7 +19,7 @@
     devices = [ "nodev" ];
     efiSupport = true;
     useOSProber = true;
-    theme = ./dotfiles/grub/virtuaverse;
+    theme = ../../assets/grub/virtuaverse;
     extraEntries = ''
       menuentry "UEFI Firmware Settings" --class efi --class settings --class uefi {
         fwsetup

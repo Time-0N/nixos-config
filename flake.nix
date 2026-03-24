@@ -30,8 +30,7 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs vars; };
         modules = [
-          ./configuration.nix
-          # Add the home-manager module here
+          ./hosts/mercury/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
