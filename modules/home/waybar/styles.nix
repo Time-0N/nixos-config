@@ -14,17 +14,27 @@ in
       font-weight: bold;
     }
 
+    @keyframes icon-pulse {
+      0% { text-shadow: 0 0 0px alpha(@color4, 0); }
+      50% { text-shadow: 0 0 6px alpha(@color4, 0.3); }
+      100% { text-shadow: 0 0 3px alpha(@color4, 0.1); }
+    }
+
     #cpu, #memory, #network, #tray, #wireplumber, #idle_inhibitor, #clock, #custom-startmenu, #bluetooth {
       padding: 0px 10px;
       margin: 5px 4px;
       background: alpha(@background, .5);
       border-radius: 10px;
-      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: color 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 
       border-top: 1px solid alpha(white, 0.25);
       border-left: 1px solid alpha(white, 0.12);
       border-right: 1px solid alpha(white, 0.05);
       border-bottom: 1px solid alpha(white, 0.05);
+    }
+
+    #cpu:hover, #memory:hover, #network:hover, #tray:hover, #wireplumber:hover, #idle_inhibitor:hover, #clock:hover, #custom-startmenu:hover, #bluetooth:hover {
+      animation: icon-pulse 0.8s ease forwards;
     }
 
     tooltip {
@@ -51,9 +61,13 @@ in
       border-radius: 10px 0px 0px 10px;
       color: @color6;
     }
-    #idle_inhibitor:hover { color: @color4; }
-    #idle_inhibitor.activated { color: @color2; }
-    #idle_inhibitor.activated:hover { color: @color4; }
+    #idle_inhibitor:hover {
+      color: @color4;
+    }
+    #idle_inhibitor.activated { 
+      color: @color2;
+    }
+    #idle_inhibitor.activated:hover {}
 
     /* ── Workspaces ─────────────────────────────────────────────────────────── */
 
@@ -75,6 +89,7 @@ in
       transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     #workspaces button:hover {
+      color: alpha(@color7, .4);
       border: solid transparent;
     }
     #workspaces button.active {
@@ -105,8 +120,11 @@ in
     }
     #bluetooth.on, #bluetooth.connected  { color: @color2; }
     #bluetooth.off, #bluetooth.disabled  { color: @color0; }
-    #bluetooth.on:hover, #bluetooth.off:hover,
-    #bluetooth.connected:hover, #bluetooth.disabled:hover { color: @color4; }
+    #bluetooth.off:hover,
+    #bluetooth.disabled:hover {
+      color: @color4;
+    }
+    #bluetooth.on:hover, #bluetooth.connected:hover {}
 
     /* ── Network ────────────────────────────────────────────────────────────── */
     #network {
@@ -116,7 +134,10 @@ in
       border-radius: 0px 10px 10px 0px;
       color: @color6;
     }
-    #network:hover { color: @color4; }
+    #network:hover {
+      color: @color4;
+    }
+    #network.activated:hover {}
     #network.linked {
       color: @color7;
     }
@@ -156,7 +177,7 @@ in
     }
     #wireplumber:hover       { color: @color4; }
     #wireplumber.muted       { color: @color0; }
-    #wireplumber.muted:hover { color: @color4; }
+    #wireplumber.muted:hover { color: @color0; }
 
     /* ── MPRIS ──────────────────────────────────────────────────────────────── */
     #mpris { padding: 0px 5px; color: @color7; transition: all .3s ease; }
