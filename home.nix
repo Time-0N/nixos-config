@@ -24,7 +24,6 @@
     pkgs.nodejs
 
     pkgs.vesktop
-    pkgs.kitty
     pkgs.grim
     pkgs.slurp
     pkgs.satty
@@ -104,12 +103,6 @@
     # Lua tools
     pkgs.stylua
 
-    # Fixed theming packages
-    pkgs.libsForQt5.qt5ct
-    pkgs.qt6Packages.qt6ct
-    pkgs.libsForQt5.qtstyleplugin-kvantum
-    pkgs.qt6Packages.qtstyleplugin-kvantum
-
     # Hyprbucket
     inputs.hypr-bucket.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
@@ -118,8 +111,6 @@
   xdg.configFile = {
     "nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/nvim";
-    "kitty".source = ./dotfiles/kitty;
-    "Kvantum".source = ./dotfiles/Kvantum;
   };
 
   home.sessionVariables = {
