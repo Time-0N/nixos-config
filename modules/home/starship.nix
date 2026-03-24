@@ -84,8 +84,15 @@
         format = "($style)[$read_only]($read_only_style)[ $path ]($style)";
       };
 
-      transient_prompt = {
-        format = "[❯ ](bold green)";
+      # Transient prompt for zsh
+      profiles = {
+        transient = lib.concatStrings [
+          "$character"
+        ];
+        rtransient = lib.concatStrings [
+          "$status"
+          "$cmd_duration"
+        ];
       };
 
       git_branch = {
@@ -136,7 +143,7 @@
 
       time = {
         disabled = false;
-        time_format = "%H:%M:%S";
+        time_format = "%H:%M";
         style = "bg:color_black2";
         format = "[[   $time ](fg:color_white3 bg:color_black2)]($style)";
       };
