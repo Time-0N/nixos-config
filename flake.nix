@@ -3,10 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
 
-    # Add Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -20,6 +25,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixvim,
       ...
     }@inputs:
     let
@@ -31,14 +37,16 @@
         specialArgs = { inherit inputs vars; };
         modules = [
           ./hosts/mercury/configuration.nix
+	  inputs.nix-flatpak.nixosModules.nix-flatpak
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs vars; };
-            home-manager.users.timeon = import ./home.nix;
-            # Makes backups of old configs. (Must be deleted manualy!)
-            home-manager.backupFileExtension = "backup";
+            home-manager.users.timeon = import ./modules/home/default.nix;
+            home-manager.sharedModules = [
+              nixvim.homeModules.nixvim
+            ];
           }
         ];
       };

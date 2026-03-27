@@ -1,4 +1,6 @@
 {
+  username = "timeon";
+  hostName = "mercury";
   gitUsername = "Time-0N";
   gitEmail = "timeon.haas@gmail.com";
 
