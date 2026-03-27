@@ -21,6 +21,9 @@
     nemo
     yazi
 
+    # Cli tools
+    lsd
+
     # Wayland / Hyprland utilities
     grim
     slurp
