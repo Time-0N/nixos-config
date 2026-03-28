@@ -168,12 +168,13 @@
       action = "<cmd>bdelete<cr>";
       options.desc = "Delete buffer";
     }
-    {
-      mode = "n";
-      key = "<leader>bD";
-      action = "<cmd>%bdelete<cr>";
-      options.desc = "Delete all buffers";
-    }
+    #TODO Needs fixing
+    #{
+    #mode = "n";
+    #key = "<leader>bD";
+    #action = "<cmd>%bdelete<cr>";
+    #options.desc = "Delete all buffers";
+    #}
 
     # ── Tab navigation ───────────────────────────────────────────
     {

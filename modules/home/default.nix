@@ -3,6 +3,7 @@
   imports = [
     ./cli/git.nix
     ./cli/lazygit.nix
+    ./fastfetch
     ./packages.nix
     ./ssh.nix
     ./zsh.nix

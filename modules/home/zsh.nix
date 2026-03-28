@@ -19,6 +19,7 @@
     };
 
     shellAliases = {
+      ff = "fastfetch";
       zen = "zen-browser";
       ls = "lsd";
       nixsw = "sudo nixos-rebuild switch --flake ~/nixos-config";
