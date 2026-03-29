@@ -19,6 +19,7 @@
     };
 
     shellAliases = {
+      lg = "lazygit";
       ff = "fastfetch";
       zen = "zen-browser";
       ls = "lsd";

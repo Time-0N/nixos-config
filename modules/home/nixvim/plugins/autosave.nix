@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.nixvim.plugins.auto-save = {
-    enable = true;
+    enable = false;
     settings.enabled = true;
   };
 }
