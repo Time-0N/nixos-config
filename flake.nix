@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -37,7 +38,7 @@
         specialArgs = { inherit inputs vars; };
         modules = [
           ./hosts/mercury/configuration.nix
-	  inputs.nix-flatpak.nixosModules.nix-flatpak
+          inputs.nix-flatpak.nixosModules.nix-flatpak
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

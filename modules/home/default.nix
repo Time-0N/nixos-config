@@ -16,6 +16,7 @@
     ./kitty.nix
     ./zen-browser.nix
     ./nixvim
+    ./spicetify.nix
   ];
 
   home.username = vars.username;

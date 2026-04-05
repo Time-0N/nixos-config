@@ -9,12 +9,18 @@
 
     # Desktop apps
     vesktop
-    spotify
     vlc
     imv
     evince
     pinta
     gimp2-with-plugins
+    (prismlauncher.override {
+      jdks = [
+        jdk8
+        jdk17
+        jdk21
+      ];
+    })
 
     # File managers
     nautilus
@@ -23,6 +29,7 @@
 
     # Cli tools
     lsd
+    ffmpeg
 
     # Wayland / Hyprland utilities
     grim
