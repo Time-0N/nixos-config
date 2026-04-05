@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    xrandr
     jq
   ];
 
@@ -24,8 +23,5 @@
 
     # Cursor
     "hyprctl setcursor macOS 24"
-
-    # Xwayland main monitor
-    "sh -c 'xrandr --output $(hyprctl monitors -j | jq -r \".[0].name\") --primary'"
   ];
 }

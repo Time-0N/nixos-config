@@ -11,7 +11,7 @@
       "col.inactive_border" = "rgba(00000000)";
 
       resize_on_border = true;
-      extend_border_grab_area = 15;
+      extend_border_grab_area = 20;
       hover_icon_on_border = false;
       allow_tearing = false;
 

@@ -12,6 +12,7 @@
     ./keybinds.nix
     ./windowrules.nix
     ./wallpaper-slideshow.nix
+    ./xwayland-primary.nix
   ];
 
   wayland.windowManager.hyprland = {
