@@ -3,8 +3,17 @@ let
   gtk-theme-name = "Colloid-Dark";
   gtk-theme = pkgs.colloid-gtk-theme;
   icon-theme-name = "Papirus-Dark";
-  cursor-name = "macOS";
-  cursor-theme = pkgs.apple-cursor;
+  cursor-name = "MacOSX-Cursor";
+  cursor-theme = pkgs.stdenvNoCC.mkDerivation {
+    pname = "macosx-cursor-moyash";
+    version = "1.0";
+    src = ../../assets/cursor/MacOSX-Cursor.zip;
+    nativeBuildInputs = [ pkgs.unzip ];
+    installPhase = ''
+      mkdir -p $out/share/icons
+      cp -r . $out/share/icons/MacOSX-Cursor
+    '';
+  };
   cursor-size = 24;
 in
 {
