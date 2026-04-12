@@ -13,4 +13,9 @@
 
   # GUI
   enableBatteryModule = true;
+
+  mimeDefaultApps = {
+    "text/plain" = [ "neovim-kitty.desktop" ];
+    "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+  };
 }
