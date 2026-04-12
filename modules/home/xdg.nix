@@ -1,13 +1,10 @@
 {
   pkgs,
-  host,
+  vars,
   lib,
   config,
   ...
 }:
-let
-  vars = import ../../hosts/${host}/variables.nix;
-in
 {
   xdg = {
     enable = true;
@@ -70,7 +67,6 @@ in
       desktop = "${config.home.homeDirectory}/desktop";
       publicShare = "${config.home.homeDirectory}/public";
       templates = "${config.home.homeDirectory}/templates";
-      developer = "${config.home.homeDirectory}/developer";
     };
   };
 }

@@ -1,6 +1,9 @@
 { vars, ... }:
 {
   imports = [
+    ./nautilus.nix
+    ./xdg.nix
+    ./desktop-entries.nix
     ./cli/git.nix
     ./cli/lazygit.nix
     ./fastfetch
