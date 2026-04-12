@@ -21,10 +21,12 @@
         jdk21
       ];
     })
+    qbittorrent
+    protonvpn-gui
+    proton-vpn-cli
+    jellyfin-media-player
 
     # File managers
-    nautilus
-    nemo
     yazi
 
     # Cli tools
