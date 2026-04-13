@@ -11,6 +11,8 @@
   browser = "zen";
   terminal = "kitty";
 
+  tailscale = true;
+
   # GUI
   enableBatteryModule = true;
 

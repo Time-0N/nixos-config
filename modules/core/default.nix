@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./talescale.nix
     ./snapper.nix
     ./boot.nix
     ./displaymanager.nix

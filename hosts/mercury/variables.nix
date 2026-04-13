@@ -11,6 +11,8 @@
   browser = "zen";
   terminal = "kitty";
 
+  tailscale = false;
+
   mimeDefaultApps = {
     "text/plain" = [ "neovim-kitty.desktop" ];
     "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
