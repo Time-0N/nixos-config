@@ -32,6 +32,7 @@
     # Cli tools
     lsd
     ffmpeg
+    flac
 
     # Wayland / Hyprland utilities
     grim
