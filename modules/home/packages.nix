@@ -25,6 +25,7 @@
     protonvpn-gui
     proton-vpn-cli
     jellyfin-media-player
+    trayscale
 
     # File managers
     yazi

@@ -1,4 +1,8 @@
 { vars, lib, ... }:
 {
-  services.tailscale.enable = lib.mkIf (vars ? tailscale && vars.tailscale) true;
+  services.tailscale = lib.mkIf (vars ? tailscale && vars.tailscale) {
+    enable = true;
+    useRoutingFeatures = "client";
+    extraSetFlags = [ "--operator=${vars.username}" ];
+  };
 }
