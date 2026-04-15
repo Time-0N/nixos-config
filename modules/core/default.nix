@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./power-profile.nix
     ./talescale.nix
     ./snapper.nix
     ./boot.nix

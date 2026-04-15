@@ -20,7 +20,7 @@ in
        100% { text-shadow: 0 0 3px alpha(@color4, 0.1); }
      }
 
-     #cpu, #memory, #network, #tray, #wireplumber, #idle_inhibitor, #clock, #custom-startmenu, #bluetooth, #battery {
+     #cpu, #memory, #network, #tray, #wireplumber, #idle_inhibitor, #clock, #custom-startmenu, #bluetooth, #battery, #backlight, #power-profiles-daemon {
        padding: 0px 10px;
        margin: 5px 4px;
        background: alpha(@background, .5);
@@ -33,7 +33,7 @@ in
        border-bottom: 1px solid alpha(white, 0.05);
      }
 
-     #cpu:hover, #memory:hover, #network:hover, #tray:hover, #wireplumber:hover, #idle_inhibitor:hover, #clock:hover, #custom-startmenu:hover, #bluetooth:hover, #battery:hover {
+     #cpu:hover, #memory:hover, #network:hover, #tray:hover, #wireplumber:hover, #idle_inhibitor:hover, #clock:hover, #custom-startmenu:hover, #bluetooth:hover, #battery:hover, #backlight:hover, #power-profiles-daemon:hover {
        animation: icon-pulse 0.8s ease forwards;
      }
 
@@ -196,12 +196,51 @@ in
 
     /* ── Battery ───────────────────────────────────────────────────────────── */
     #battery {
-     color: @color2;
+      color: @color2;
+      border-radius: 10px 0px 0px 10px;
+      margin-right: 0px;
+      border-right: 0px;
+      margin-left: 5px;
     }
     #battery:hover { color: @color4; }
     #battery.warning { color: @color3; }
     #battery.critical { color: @color1; }
     #battery.charging, #battery.plugged { color: @color2; }
+
+    #backlight {
+      color: @color3;
+      border-radius: 0px 10px 10px 0px;
+      margin-left: 0px;
+      border-left: 0px;
+      margin-right: 5px;
+    }
+    #backlight:hover {
+      color: @color4;
+    }
+
+    #power-profiles-daemon {
+      color: @color3;
+      margin-right: 0px;
+      margin-left: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-radius: 0px 0px 0px 0px;
+    }
+    #power-profiles-daemon:hover {
+      color: @color4;
+    }
+    #power-profiles-daemon.performance {
+      color: @color0;
+      border-bottom: 2px solid @color0;
+    }
+    #power-profiles-daemon.balanced {
+      color: @color1;
+      border-bottom: 2px solid @color1;
+    }
+    #power-profiles-daemon.power-saver {
+      color: @color2;
+      border-bottom: 2px solid @color2;
+    }
 
   '';
 }

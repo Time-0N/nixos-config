@@ -13,8 +13,8 @@
 
   tailscale = true;
 
-  # GUI
-  enableBatteryModule = true;
+  # GUI - Waybar
+  enableLaptopMode = true;
 
   mimeDefaultApps = {
     "text/plain" = [ "neovim-kitty.desktop" ];

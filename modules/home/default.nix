@@ -1,6 +1,7 @@
 { vars, ... }:
 {
   imports = [
+    ./direnv.nix
     ./nautilus.nix
     ./xdg.nix
     ./desktop-entries.nix

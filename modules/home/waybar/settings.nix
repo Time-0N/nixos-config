@@ -25,13 +25,24 @@ in
         "memory"
       ];
       modules-center = [ "hyprland/workspaces" ];
-      modules-right = (if (vars.enableBatteryModule or false) then [ "battery" ] else [ ]) ++ [
-        "idle_inhibitor"
-        "bluetooth"
-        "network"
-        "tray"
-        "clock"
-      ];
+      modules-right =
+        (
+          if (vars.enableLaptopMode or false) then
+            [
+              "battery"
+              "power-profiles-daemon"
+              "backlight"
+            ]
+          else
+            [ ]
+        )
+        ++ [
+          "idle_inhibitor"
+          "bluetooth"
+          "network"
+          "tray"
+          "clock"
+        ];
 
       # ── Module definitions ──────────────────────────────────────────────
 
@@ -197,6 +208,30 @@ in
         states = {
           warning = 30;
           critical = 15;
+        };
+      };
+
+      backlight = {
+        format = "{icon} {percent}%";
+        format-icons = [
+          "󰃞"
+          "󰃟"
+          "󰃠"
+        ];
+        on-scroll-up = "brightnessctl set 1%+";
+        on-scroll-down = "brightnessctl set 1%-";
+        tooltip = false;
+      };
+
+      "power-profiles-daemon" = {
+        format = "{icon}";
+        tooltip-format = "Power profile: {profile}\nDriver: {driver}";
+        tooltip = true;
+        format-icons = {
+          default = "";
+          performance = "";
+          balanced = "";
+          power-saver = "";
         };
       };
     }
