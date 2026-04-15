@@ -9,6 +9,8 @@
       "input"
       "video"
       "storage"
+      "adbusers"
+      "kvm"
     ];
     shell = pkgs.zsh;
   };

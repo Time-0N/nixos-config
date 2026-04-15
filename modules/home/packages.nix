@@ -27,6 +27,9 @@
     jellyfin-media-player
     trayscale
 
+    # Android dev
+    android-tools
+
     # File managers
     yazi
 
