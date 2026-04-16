@@ -212,7 +212,9 @@ in
       };
 
       backlight = {
+        device = "intel_backlight";
         format = "{icon} {percent}%";
+        signal = 8;
         format-icons = [
           "󰃞"
           "󰃟"

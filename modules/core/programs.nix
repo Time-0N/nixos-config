@@ -19,6 +19,7 @@
   time.timeZone = vars.timeZone;
 
   environment.systemPackages = with pkgs; [
+    brightnessctl
     parted
     wget
     curl

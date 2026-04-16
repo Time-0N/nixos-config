@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./brightnessctl.nix
     ./power-profile.nix
     ./talescale.nix
     ./snapper.nix
