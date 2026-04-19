@@ -29,7 +29,7 @@ in
       "${mainMod}, L, exec, hyprlock"
       "${mainMod}, Tab, changegroupactive, f"
       # Screenshot
-      ''${mainMod} SHIFT, S, exec, grim -g "$(slurp -o -r -c '##ff0000ff')" -t ppm - | satty --filename - --fullscreen --output-filename ~/pictures/screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png''
+      ''${mainMod} SHIFT, S, exec, grim -g "$(slurp -o -r -c '##00000000')" -t ppm - | satty --filename - --fullscreen --output-filename ~/pictures/screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png''
       # Move focus with mainMod + arrow keys
       "${mainMod}, left, movefocus, l"
       "${mainMod}, right, movefocus, r"
