@@ -37,6 +37,7 @@
     lsd
     ffmpeg
     flac
+    opencode
 
     # Wayland / Hyprland utilities
     grim
