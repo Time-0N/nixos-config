@@ -36,22 +36,53 @@
       taplo.enable = true;
       sqls.enable = true;
       marksman.enable = true;
+      kotlin_language_server.enable = true;
     };
 
     keymaps = {
       diagnostic = {
-        "[d" = { action = "goto_prev"; desc = "Previous diagnostic"; };
-        "]d" = { action = "goto_next"; desc = "Next diagnostic"; };
-        "<leader>cd" = { action = "open_float"; desc = "Line diagnostics"; };
+        "[d" = {
+          action = "goto_prev";
+          desc = "Previous diagnostic";
+        };
+        "]d" = {
+          action = "goto_next";
+          desc = "Next diagnostic";
+        };
+        "<leader>cd" = {
+          action = "open_float";
+          desc = "Line diagnostics";
+        };
       };
       lspBuf = {
-        "gd" = { action = "definition"; desc = "Go to definition"; };
-        "gD" = { action = "declaration"; desc = "Go to declaration"; };
-        "gr" = { action = "references"; desc = "References"; };
-        "gI" = { action = "implementation"; desc = "Go to implementation"; };
-        "K" = { action = "hover"; desc = "Hover"; };
-        "<leader>cr" = { action = "rename"; desc = "Rename"; };
-        "<leader>ca" = { action = "code_action"; desc = "Code action"; };
+        "gd" = {
+          action = "definition";
+          desc = "Go to definition";
+        };
+        "gD" = {
+          action = "declaration";
+          desc = "Go to declaration";
+        };
+        "gr" = {
+          action = "references";
+          desc = "References";
+        };
+        "gI" = {
+          action = "implementation";
+          desc = "Go to implementation";
+        };
+        "K" = {
+          action = "hover";
+          desc = "Hover";
+        };
+        "<leader>cr" = {
+          action = "rename";
+          desc = "Rename";
+        };
+        "<leader>ca" = {
+          action = "code_action";
+          desc = "Code action";
+        };
       };
     };
   };

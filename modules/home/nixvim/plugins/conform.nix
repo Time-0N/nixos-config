@@ -12,6 +12,8 @@
       clang-tools
       sqlfluff
       alejandra
+      ktfmt
+      libxml2
     ];
 
     plugins.conform-nvim = {
@@ -32,10 +34,19 @@
           cpp = [ "clang-format" ];
           yaml = [ "prettierd" ];
           markdown = [ "prettierd" ];
+          kotlin = [ "ktfmt" ];
+          xml = [ "xmllint" ];
         };
         format_on_save = {
           timeout_ms = 500;
           lsp_format = "fallback";
+        };
+        formatters.xmllint = {
+          command = "xmllint";
+          args = [
+            "--format"
+            "-"
+          ];
         };
       };
     };
