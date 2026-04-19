@@ -21,7 +21,7 @@
     shellAliases = {
       lg = "lazygit";
       ff = "fastfetch";
-      zen = "zen-browser";
+      zen = "zen-beta";
       ls = "lsd";
       nixsw = "sudo nixos-rebuild switch --flake ~/nixos-config";
     };

@@ -27,13 +27,6 @@
     "application/json" = [ "neovim-kitty.desktop" ];
     "text/xml" = [ "neovim-kitty.desktop" ];
 
-    # Web Browser
-    "text/html" = [ "zen.desktop" ];
-    "x-scheme-handler/http" = [ "zen.desktop" ];
-    "x-scheme-handler/https" = [ "zen.desktop" ];
-    "x-scheme-handler/about" = [ "zen.desktop" ];
-    "x-scheme-handler/unknown" = [ "zen.desktop" ];
-
     # Images
     "image/jpeg" = [ "imv.desktop" ];
     "image/png" = [ "imv.desktop" ];

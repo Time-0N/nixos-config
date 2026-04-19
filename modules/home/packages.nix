@@ -39,6 +39,9 @@
     flac
     opencode
 
+    # Monitoring
+    btop
+
     # Wayland / Hyprland utilities
     grim
     slurp
