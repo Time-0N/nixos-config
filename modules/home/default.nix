@@ -26,6 +26,7 @@
   home.username = vars.username;
   home.homeDirectory = "/home/${vars.username}";
   home.sessionVariables = {
+    BROWSER = vars.browser;
     TERMINAL = vars.terminal;
   };
   home.stateVersion = "24.11";

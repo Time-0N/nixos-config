@@ -1,9 +1,13 @@
-{ inputs, ... }:
-{
-  imports = [ inputs.zen-browser.homeModules.beta ];
-
-  programs.zen-browser = {
-    enable = true;
-    setAsDefaultBrowser = true;
+{ inputs, pkgs, ... }:
+let
+  zen = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+    extraPolicies = {
+      DontCheckDefaultBrowser = true;
+      DisableAppUpdate = true;
+      DisableTelemetry = true;
+    };
   };
+in
+{
+  home.packages = [ zen ];
 }
