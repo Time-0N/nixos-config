@@ -65,7 +65,7 @@ in
           "󰤥"
           "󰤨"
         ];
-        tooltip-format = "󱘖 {ifname} via {gwaddri}";
+        tooltip-format = "󱘖 {ifname} via {gwaddr}";
         tooltip-format-wifi = "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}";
         tooltip-format-ethernet = " {ifname}\nIP: {ipaddr}\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}";
         tooltip-format-disconnected = "Disconnected";

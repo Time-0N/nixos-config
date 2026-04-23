@@ -15,7 +15,7 @@
     "systemctl --user start waybar"
 
     # UI Components
-    "swww-daemon"
+    "awww-daemon"
     "eww daemon"
 
     # Cursor

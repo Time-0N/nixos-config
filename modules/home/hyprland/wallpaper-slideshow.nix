@@ -18,7 +18,7 @@ let
     }
 
     set_wallpaper() {
-      ${pkgs.swww}/bin/swww img "$1" \
+      ${pkgs.swww}/bin/awww img "$1" \
         --transition-type "$2" \
         --transition-fps 120 \
         --transition-duration 1 \
@@ -42,7 +42,7 @@ let
 in
 {
   home.packages = [
-    pkgs.swww
+    pkgs.awww
     wallpaper-slideshow
   ];
 
