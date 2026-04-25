@@ -13,6 +13,7 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d";
+    persistent = true;
   };
 
   system.stateVersion = "24.11";
