@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -6,6 +6,8 @@
 
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+
+    dotDir = config.home.homeDirectory;
 
     oh-my-zsh = {
       enable = true;
@@ -23,6 +25,7 @@
       ff = "fastfetch";
       ls = "lsd";
       nixsw = "sudo nixos-rebuild switch --flake ~/nixos-config";
+      nixgc = "sudo nix-collect-garbage --delete-older-than 7d && nix-collect-garbage --delete-older-than 7d";
     };
 
     # Transient prompt for starship (not natively supported in zsh)
