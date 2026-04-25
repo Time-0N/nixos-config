@@ -1,5 +1,4 @@
 {
-  pkgs,
   vars,
   lib,
   config,
@@ -41,23 +40,10 @@
       #   "inode/directory" = ["thunar.desktop"];      # or org.gnome.Nautilus.desktop, org.kde.dolphin.desktop
       # };
     };
-    portal = {
-      enable = true;
-      config = {
-        hyprland = {
-          default = [
-            "hyprland"
-            "gtk"
-          ];
-          "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
-        };
-      };
-      extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-      configPackages = [ pkgs.hyprland ];
-    };
     userDirs = {
       enable = true;
       createDirectories = true; # Automatically create them if they don't exist
+      setSessionVariables = true;
 
       download = "${config.home.homeDirectory}/downloads";
       documents = "${config.home.homeDirectory}/documents";
