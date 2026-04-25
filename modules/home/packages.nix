@@ -22,8 +22,7 @@
       ];
     })
     qbittorrent
-    protonvpn-gui
-    proton-vpn-cli
+    proton-vpn
     jellyfin-media-player
     trayscale
 

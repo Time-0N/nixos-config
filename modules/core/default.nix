@@ -2,6 +2,9 @@
 
 {
   imports = [
+    ./printer.nix
+    ./audio.nix
+    ./xdg-portal.nix
     ./power-profile.nix
     ./talescale.nix
     ./snapper.nix

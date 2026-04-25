@@ -16,6 +16,7 @@ in
     };
 
     signing = lib.mkIf hasGpg {
+      format = "openpgp";
       key = vars.gitGpgKey;
       signByDefault = true;
     };

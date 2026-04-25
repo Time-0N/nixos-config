@@ -28,7 +28,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${lib.getExe pkgs.cage} -s -- ${lib.getExe pkgs.greetd.regreet}";
+        command = "${lib.getExe pkgs.cage} -s -- ${lib.getExe pkgs.regreet}";
         user = "greeter";
       };
     };

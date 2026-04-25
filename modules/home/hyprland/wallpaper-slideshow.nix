@@ -18,7 +18,7 @@ let
     }
 
     set_wallpaper() {
-      ${pkgs.swww}/bin/awww img "$1" \
+      ${pkgs.awww}/bin/awww img "$1" \
         --transition-type "$2" \
         --transition-fps 120 \
         --transition-duration 1 \
