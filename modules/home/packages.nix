@@ -37,7 +37,6 @@
     lsd
     ffmpeg
     flac
-    opencode
 
     # Monitoring
     btop
@@ -70,6 +69,10 @@
     cargo
     python3
     ghc
+
+    # Clanker tooling
+    opencode
+    claude-code
 
     # Flake packages
     inputs.hypr-bucket.packages.${pkgs.stdenv.hostPlatform.system}.default
