@@ -15,6 +15,4 @@
     };
     configPackages = [ pkgs.hyprland ];
   };
-
-  environment.systemPackages = [ pkgs.wl-clipboard ];
 }

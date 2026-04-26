@@ -24,6 +24,7 @@
     qbittorrent
     proton-vpn
     jellyfin-media-player
+    fuzzel # Clipboard selector
     trayscale
 
     # Android dev

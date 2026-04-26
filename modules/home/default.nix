@@ -1,6 +1,7 @@
 { vars, ... }:
 {
   imports = [
+    ./cliphist.nix
     ./direnv.nix
     ./nautilus.nix
     ./xdg.nix
