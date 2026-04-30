@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  vars,
+  ...
+}:
 
 {
   boot = {
@@ -6,19 +11,19 @@
 
     # ── Bootloader ───────────────────────────────────────────────
     loader = {
-      systemd-boot.enable = false;
-      efi.canTouchEfiVariables = true;
-      grub = {
-        enable = true;
-        devices = [ "nodev" ];
-        efiSupport = true;
-        useOSProber = true;
-        extraEntries = ''
-          menuentry "UEFI Firmware Settings" --class efi --class settings --class uefi {
-            fwsetup
-          }
-        '';
+      systemd-boot = {
+        enable = !vars.secureBoot;
+        configurationLimit = 20;
+        consoleMode = "max";
+        editor = false;
       };
+      efi.canTouchEfiVariables = true;
+      timeout = 3;
+    };
+
+    lanzaboote = lib.mkIf vars.secureBoot or false {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
     };
 
     # ── Kernel params (quiet boot) ───────────────────────────────
@@ -37,4 +42,6 @@
     consoleLogLevel = 3;
     initrd.verbose = false;
   };
+
+  environment.systemPackages = with pkgs; [ sbctl ];
 }

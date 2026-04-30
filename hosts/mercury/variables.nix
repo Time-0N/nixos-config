@@ -13,6 +13,8 @@
 
   tailscale = false;
 
+  secureBoot = true;
+
   mimeDefaultApps = {
     # File Manager
     "inode/directory" = [ "org.gnome.Nautilus.desktop" ];

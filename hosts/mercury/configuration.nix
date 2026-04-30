@@ -7,7 +7,14 @@
   ];
 
   # ── Host-specific: Boot ────────────────────────────────────────
-  boot.loader.grub.theme = ../../assets/grub/virtuaverse;
+
+  boot.loader.systemd-boot.windows = {
+    "Windows" = {
+      title = "Windows";
+      efiDeviceHandle = "HD0c1";
+      sortKey = "z_windows";
+    };
+  };
 
   # ── Host-specific: Networking ──────────────────────────────────
   networking.hostName = vars.hostName;

@@ -7,6 +7,11 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     impermanence.url = "github:nix-community/impermanence";
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +44,7 @@
         };
         modules = [
           ./hosts/mercury/configuration.nix
+          inputs.lanzaboote.nixosModules.lanzaboote
           inputs.impermanence.nixosModules.impermanence
           inputs.nix-flatpak.nixosModules.nix-flatpak
           home-manager.nixosModules.home-manager
@@ -65,6 +71,7 @@
         };
         modules = [
           ./hosts/phobos/configuration.nix
+          inputs.lanzaboote.nixosModules.lanzaboote
           inputs.impermanence.nixosModules.impermanence
           inputs.nix-flatpak.nixosModules.nix-flatpak
           home-manager.nixosModules.home-manager
