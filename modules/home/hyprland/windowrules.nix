@@ -1,14 +1,14 @@
 { ... }:
-let
-  inherit (import ./variables.nix) cachylblue;
-in
 {
   wayland.windowManager.hyprland.settings = {
 
+    general = {
+      border_size = 2;
+    };
+
     # Window Rules
     windowrule = [
-      # Focused / unfocused defaults
-      "match:focus false, border_size 0"
+      # Remove the shadow on inactive windows to kill ghost outline
       "match:focus false, no_shadow on"
 
       # Float necessary windows
