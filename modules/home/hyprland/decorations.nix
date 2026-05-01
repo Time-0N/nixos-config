@@ -13,6 +13,7 @@
         range = 10;
         render_power = 2;
         color = "rgba(00000050)";
+        color_inactive = "rgba(00000000)";
       };
 
       blur = {

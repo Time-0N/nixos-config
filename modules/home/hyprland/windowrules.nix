@@ -6,11 +6,8 @@
       border_size = 2;
     };
 
-    # Window Rules
+    # Window Rules (v2)
     windowrule = [
-      # Remove the shadow on inactive windows to kill ghost outline
-      "match:focus false, no_shadow on"
-
       # Float necessary windows
       "match:class ^(org.pulseaudio.pavucontrol)$, float on"
       "match:class ^$, match:title ^(Picture in picture)$, float on"
