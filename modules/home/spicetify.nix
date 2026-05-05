@@ -12,21 +12,6 @@ in
       hidePodcasts
       shuffle
     ];
-    theme = {
-      name = "Blossom";
-      src =
-        pkgs.fetchFromGitHub {
-          owner = "spicetify";
-          repo = "spicetify-themes";
-          rev = "master";
-          hash = "sha256-mP4YXeXtOR7+YA8KmRMOEsxjPhjPiyId1gpatlvK/5M=";
-        }
-        + "/Blossom";
-      injectCss = true;
-      injectThemeJs = false;
-      replaceColors = true;
-      homeConfig = false;
-      overwriteAssets = false;
-    };
+    theme = spicePkgs.themes.dribbblish;
   };
 }
