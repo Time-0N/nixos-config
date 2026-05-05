@@ -27,6 +27,7 @@
     jellyfin-media-player
     fuzzel # Clipboard selector
     trayscale
+    kid3
 
     # Android dev
     android-tools
