@@ -54,7 +54,7 @@ in
       };
 
       network = {
-        format = "";
+        format = "󱘖";
         format-wifi = "{icon}";
         format-ethernet = "󰈀";
         format-disconnected = "Disconnected ⚠";
