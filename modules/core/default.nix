@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./wootility.nix
     ./printer.nix
     ./audio.nix
     ./xdg-portal.nix
