@@ -13,7 +13,7 @@
     imv
     evince
     pinta
-    gimp2-with-plugins
+    gimp3-with-plugins
     (prismlauncher.override {
       jdks = [
         jdk8
@@ -28,6 +28,8 @@
     fuzzel # Clipboard selector
     trayscale
     kid3
+    feishin
+    supersonic-wayland
 
     # Android dev
     android-tools
