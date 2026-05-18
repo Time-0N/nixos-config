@@ -24,12 +24,17 @@
     })
     qbittorrent
     proton-vpn
-    jellyfin-media-player
+    jellyfin-desktop
     fuzzel # Clipboard selector
     trayscale
     kid3
     feishin
     supersonic-wayland
+    clonehero
+
+    # 3D
+    freecad
+    blender
 
     # Android dev
     android-tools
