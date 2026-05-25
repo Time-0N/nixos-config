@@ -18,6 +18,7 @@
   wayland.windowManager.hyprland = {
     systemd.enable = false;
     enable = true;
+    configType = "hyprlang";
     # Syslink for nwg-displays
     extraConfig = ''
       source = ~/.config/hypr/monitors.conf

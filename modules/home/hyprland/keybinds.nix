@@ -25,7 +25,7 @@ in
       "${mainMod}, SPACE, exec, ${menu}"
       "${mainMod}, F, fullscreen"
       "${mainMod}, P, pseudo"
-      "${mainMod}, J, togglesplit"
+      "${mainMod}, J, layoutmsg, togglesplit"
       "${mainMod}, L, exec, hyprlock"
       "${mainMod}, Tab, changegroupactive, f"
       # Screenshot
