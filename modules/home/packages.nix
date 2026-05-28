@@ -31,11 +31,11 @@
     feishin
     supersonic-wayland
     clonehero
-    (callPackage ../../packages/musly.nix { })
     r2modman
 
     # 3D
     freecad
+    openscad
     blender
 
     # Android dev
