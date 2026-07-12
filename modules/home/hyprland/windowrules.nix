@@ -33,9 +33,6 @@
       "match:title ^(Picture-in-Picture)$, move ((monitor_w*0.75)-window_w) 0"
 
       # Floating media windows
-      "match:title ^(imv|mpv|danmufloat|termfloat|nemo|ncmpcpp)$, float on"
-      "match:title ^(imv|mpv|danmufloat|termfloat|nemo|ncmpcpp)$, move ((monitor_w*0.75)-window_w) 0"
-      "match:title ^(imv|mpv|danmufloat|termfloat|nemo|ncmpcpp)$, size 960 540"
       "match:title ^(danmufloat)$, pin on"
       "match:title ^(danmufloat|termfloat)$, rounding 5"
 

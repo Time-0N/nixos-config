@@ -6,7 +6,10 @@
       enable = true;
       settings.options = {
         globalstatus = true;
-        disabled_filetypes.statusline = [ "dashboard" "alpha" ];
+        disabled_filetypes.statusline = [
+          "dashboard"
+          "alpha"
+        ];
       };
     };
 
@@ -45,12 +48,30 @@
     which-key = {
       enable = true;
       settings.spec = [
-        { __unkeyed-1 = "<leader>f"; group = "Find / File"; }
-        { __unkeyed-1 = "<leader>s"; group = "Search"; }
-        { __unkeyed-1 = "<leader>g"; group = "Git"; }
-        { __unkeyed-1 = "<leader>c"; group = "Code"; }
-        { __unkeyed-1 = "<leader>b"; group = "Buffer"; }
-        { __unkeyed-1 = "<leader>x"; group = "Diagnostics / Quickfix"; }
+        {
+          __unkeyed-1 = "<leader>f";
+          group = "Find / File";
+        }
+        {
+          __unkeyed-1 = "<leader>s";
+          group = "Search";
+        }
+        {
+          __unkeyed-1 = "<leader>g";
+          group = "Git";
+        }
+        {
+          __unkeyed-1 = "<leader>c";
+          group = "Code";
+        }
+        {
+          __unkeyed-1 = "<leader>b";
+          group = "Buffer";
+        }
+        {
+          __unkeyed-1 = "<leader>x";
+          group = "Diagnostics / Quickfix";
+        }
       ];
     };
 
@@ -70,11 +91,36 @@
             ""
           ];
           center = [
-            { action = "Telescope find_files"; desc = " Find file"; icon = " "; key = "f"; }
-            { action = "ene | startinsert"; desc = " New file"; icon = " "; key = "n"; }
-            { action = "Telescope oldfiles"; desc = " Recent files"; icon = " "; key = "r"; }
-            { action = "Telescope live_grep"; desc = " Find text"; icon = " "; key = "g"; }
-            { action = "qa"; desc = " Quit"; icon = " "; key = "q"; }
+            {
+              action = "Telescope find_files";
+              desc = " Find file";
+              icon = " ";
+              key = "f";
+            }
+            {
+              action = "ene | startinsert";
+              desc = " New file";
+              icon = " ";
+              key = "n";
+            }
+            {
+              action = "Telescope oldfiles";
+              desc = " Recent files";
+              icon = " ";
+              key = "r";
+            }
+            {
+              action = "Telescope live_grep";
+              desc = " Find text";
+              icon = " ";
+              key = "g";
+            }
+            {
+              action = "qa";
+              desc = " Quit";
+              icon = " ";
+              key = "q";
+            }
           ];
         };
       };
@@ -95,6 +141,6 @@
 
     dressing.enable = true;
     web-devicons.enable = true;
-    nvim-colorizer.enable = true;
+    colorizer.enable = true;
   };
 }

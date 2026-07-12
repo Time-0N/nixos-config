@@ -37,11 +37,11 @@
     "x-scheme-handler/unknown" = [ "zen.desktop" ];
 
     # Images
-    "image/jpeg" = [ "imv.desktop" ];
-    "image/png" = [ "imv.desktop" ];
-    "image/gif" = [ "imv.desktop" ];
-    "image/webp" = [ "imv.desktop" ];
-    "image/svg+xml" = [ "imv.desktop" ];
+    "image/jpeg" = [ "swayimg.desktop" ];
+    "image/png" = [ "swayimg.desktop" ];
+    "image/gif" = [ "swayimg.desktop" ];
+    "image/webp" = [ "swayimg.desktop" ];
+    "image/svg+xml" = [ "swayimg.desktop" ];
 
     # Audio & Video
     "video/mp4" = [ "vlc.desktop" ];

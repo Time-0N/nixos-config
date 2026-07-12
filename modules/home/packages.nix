@@ -10,8 +10,8 @@
     # Desktop apps
     vesktop
     vlc
-    imv
     evince
+    swayimg
     pinta
     gimp3-with-plugins
     (prismlauncher.override {
@@ -34,7 +34,7 @@
     r2modman
 
     # 3D
-    freecad
+    #temp removed due to upstream test failure: freecad
     openscad
     blender
 
