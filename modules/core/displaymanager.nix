@@ -9,7 +9,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = lib.concatStringsSep " " [
+        command = lib.escapeShellArgs [
           (lib.getExe pkgs.tuigreet)
           "--time"
           "--remember"
