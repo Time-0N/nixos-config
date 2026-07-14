@@ -12,6 +12,5 @@ in
       hidePodcasts
       shuffle
     ];
-    theme = spicePkgs.themes.dribbblish;
   };
 }
