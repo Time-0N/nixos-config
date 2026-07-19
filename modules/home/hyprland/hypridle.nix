@@ -23,11 +23,11 @@
           on-resume = "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 1.0";
         }
         {
-          timeout = 140;
+          timeout = 300;
           on-timeout = "hyprlock";
         }
         {
-          timeout = 180;
+          timeout = 360;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
