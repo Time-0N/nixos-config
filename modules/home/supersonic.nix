@@ -1,0 +1,80 @@
+{ pkgs, ... }:
+let
+  themeName = "catppuccin-mocha-blue";
+in
+{
+  home.packages = [ pkgs.supersonic-wayland ];
+
+  xdg.configFile."supersonic/themes/${themeName}.toml".text = ''
+         
+    [SupersonicTheme]
+    Name = "Catppuccin Mocha (Sapphire)"
+    Version = "0.2"
+    SupportsDark = true
+    SupportsLight = true
+
+
+    [LightColors]
+    PageBackground = "#EFF1F5FF"
+    ListHeader = "#DCE0E8FF"
+    PageHeader = "#E6E9EFFF"
+    Background = "#DCE0E8FF"
+    Button = "#E6E9EFFF"
+    DisabledButton = "#CCD0DAFF"
+    Disabled = "#4C4F69FF"
+    Error = "#D20F39FF"
+    Focus = "#C5E1E8FF"
+    Foreground = "#4C4F69FF"
+    ForegroundOnError = "#EFF1F5FF"
+    ForegroundOnPrimary = "#EFF1F5FF"
+    ForegroundOnSuccess = "#EFF1F5FF"
+    ForegroundOnWarning = "#EFF1F5FF"
+    HeaderBackground = "#CCD0DAFF"
+    Hover = "#DBE9EFFF"
+    Hyperlink = "#209FB5FF"
+    InputBackground = "#E6E9EFFF"
+    InputBorder = "#CCD0DAFF"
+    MenuBackground = "#E6E9EFFF"
+    OverlayBackground = "#E6E9EFFF"
+    Placeholder = "#7C7F93FF"
+    Pressed = "#CCD0DA66"
+    Primary = "#209FB5FF"
+    ScrollBar = "#E6E9EF99"
+    Selection = "#BBDDE5FF"
+    Separator = "#DCE0E8FF"
+    Success = "#40A02BFF"
+    Warning = "#DF8E1DFF"
+
+
+    [DarkColors]
+    PageBackground = "#1E1E2EFF"
+    ListHeader = "#11111BFF"
+    PageHeader = "#181825FF"
+    Background = "#11111BFF"
+    Button = "#181825FF"
+    DisabledButton = "#313244FF"
+    Disabled = "#CDD6F4FF"
+    Error = "#F38BA8FF"
+    Focus = "#2F4054FF"
+    Foreground = "#CDD6F4FF"
+    ForegroundOnError = "#1E1E2EFF"
+    ForegroundOnPrimary = "#1E1E2EFF"
+    ForegroundOnSuccess = "#1E1E2EFF"
+    ForegroundOnWarning = "#1E1E2EFF"
+    HeaderBackground = "#313244FF"
+    Hover = "#262F40FF"
+    Hyperlink = "#74C7ECFF"
+    InputBackground = "#181825FF"
+    InputBorder = "#313244FF"
+    MenuBackground = "#181825FF"
+    OverlayBackground = "#181825FF"
+    Placeholder = "#9399B2FF"
+    Pressed = "#31324466"
+    Primary = "#74C7ECFF"
+    ScrollBar = "#18182599"
+    Selection = "#33485DFF"
+    Separator = "#11111BFF"
+    Success = "#A6E3A1FF"
+    Warning = "#F9E2AFFF"
+  '';
+}

@@ -22,6 +22,7 @@
     ./zen-browser.nix
     ./nixvim
     ./spicetify.nix
+    ./supersonic.nix
   ];
 
   home.username = vars.username;

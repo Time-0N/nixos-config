@@ -29,7 +29,6 @@
     trayscale
     kid3
     feishin
-    supersonic-wayland
     clonehero
     r2modman
 
