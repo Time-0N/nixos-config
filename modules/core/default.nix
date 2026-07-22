@@ -21,5 +21,6 @@
     ./users.nix
     ./nix.nix
     ./flatpak.nix
+    ./keyring.nix
   ];
 }
