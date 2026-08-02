@@ -28,7 +28,6 @@
     fuzzel # Clipboard selector
     trayscale
     kid3
-    feishin
     clonehero
     r2modman
 

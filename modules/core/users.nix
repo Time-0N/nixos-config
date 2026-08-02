@@ -1,6 +1,6 @@
 { pkgs, vars, ... }:
 {
-  users.users.timeon = {
+  users.users.${vars.username} = {
     isNormalUser = true;
     description = vars.username;
     extraGroups = [
