@@ -1,30 +1,41 @@
-{ inputs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
+let
+  cursor-theme = import ../../lib/cursor.nix { inherit pkgs; };
+in
 {
   imports = [ inputs.qylock.nixosModules.default ];
 
   services.displayManager = {
-    # programs.hyprland.withUWSM = true registers "hyprland-uwsm.desktop"
-    # under wayland-sessions; this is the session SDDM preselects.
     defaultSession = "hyprland-uwsm";
 
     sddm = {
       enable = true;
-
-      # No X server anywhere in this config, so the greeter has to run on
-      # Wayland (SDDM asserts on xserver.enable || wayland.enable).
       wayland.enable = true;
 
-      settings.General = {
-        # pixel-hollowknight draws an mp4 background via QtMultimedia. Pin the
-        # FFmpeg backend so it can't fall back to GStreamer, whose plugins are
-        # not on the greeter's search path.
-        GreeterEnvironment = "QT_MEDIA_BACKEND=ffmpeg";
+      settings = {
+        General = {
+          GreeterEnvironment = builtins.concatStringsSep "," [
+            "QT_MEDIA_BACKEND=ffmpeg"
+            "XCURSOR_PATH=/run/current-system/sw/share/icons"
+          ];
+          InputMethod = "";
+        };
 
-        # The theme brings its own input field; keep the virtual keyboard away.
-        InputMethod = "";
+        Theme = {
+          CursorTheme = "MacOSX-Cursor";
+          CursorSize = 24;
+        };
       };
     };
   };
+
+  environment.systemPackages = [ cursor-theme ];
+
+  xdg.icons.fallbackCursorThemes = [ "MacOSX-Cursor" ];
 
   programs.qylock = {
     enable = true;
