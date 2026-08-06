@@ -26,7 +26,7 @@ in
       "${mainMod}, F, fullscreen"
       "${mainMod}, P, pseudo"
       "${mainMod}, J, layoutmsg, togglesplit"
-      "${mainMod}, L, exec, hyprlock"
+      "${mainMod}, L, exec, lockscreen"
       "${mainMod}, Tab, changegroupactive, f"
       # Screenshot
       ''${mainMod} SHIFT, S, exec, grim -g "$(slurp -o -r -c '##00000000')" -t ppm - | satty --filename - --fullscreen --copy-command 'wl-copy' --output-filename ~/pictures/screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png''

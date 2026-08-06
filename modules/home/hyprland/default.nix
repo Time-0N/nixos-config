@@ -8,6 +8,7 @@
     ./general.nix
     ./hypridle.nix
     ./hyprlock.nix
+    ./lockscreen.nix
     ./input.nix
     ./keybinds.nix
     ./windowrules.nix

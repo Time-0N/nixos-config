@@ -22,6 +22,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    qylock = {
+      url = "github:Darkkal44/qylock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hypr-bucket.url = "github:Time-0N/hypr-bucket";
     zen-browser.url = "github:youwen5/zen-browser-flake";
     gazelle.url = "github:Zeus-Deus/gazelle-tui";

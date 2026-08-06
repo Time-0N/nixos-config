@@ -11,7 +11,7 @@
 
     settings = {
       general = {
-        before_sleep_cmd = "sh -c 'pidof hyprlock || hyprlock'";
+        before_sleep_cmd = "lockscreen";
         after_sleep_cmd = "hyprctl dispatch dpms on && busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 1.0";
         inhibit_sleep = 0;
       };
@@ -24,7 +24,7 @@
         }
         {
           timeout = 300;
-          on-timeout = "hyprlock";
+          on-timeout = "lockscreen";
         }
         {
           timeout = 360;
