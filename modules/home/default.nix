@@ -14,6 +14,7 @@
     ./zsh.nix
     ./gtk.nix
     ./qt.nix
+    ./qml.nix
     ./gazelle.nix
     ./waybar
     ./hyprland
