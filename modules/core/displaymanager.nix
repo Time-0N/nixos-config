@@ -1,10 +1,15 @@
 {
   inputs,
+  options,
   pkgs,
   ...
 }:
 let
   cursor-theme = import ../../lib/cursor.nix { inherit pkgs; };
+
+  # Blank the greeter's displays after this long without input. Any key or
+  # mouse movement wakes them back up. 0 would disable idling entirely.
+  greeterIdleSeconds = 300;
 in
 {
   imports = [ inputs.qylock.nixosModules.default ];
@@ -15,6 +20,14 @@ in
     sddm = {
       enable = true;
       wayland.enable = true;
+
+      # SDDM has no idle handling of its own, so it comes from the greeter's
+      # compositor (Weston). Take nixpkgs' own command as the base -- it carries
+      # the keymap/libinput settings generated from our NixOS options -- and only
+      # append the idle timeout, so a nixpkgs bump doesn't leave us on a stale copy.
+      wayland.compositorCommand =
+        options.services.displayManager.sddm.wayland.compositorCommand.default
+        + " --idle-time=${toString greeterIdleSeconds}";
 
       settings = {
         General = {
