@@ -1,7 +1,7 @@
 { ... }:
 {
   wayland.windowManager.hyprland.settings = {
-    input = {
+    config.input = {
       kb_layout = "eu";
       kb_variant = "";
       kb_model = "";
@@ -16,13 +16,20 @@
       };
     };
 
-    # Per-device config
-    # See https://wiki.hypr.land/Configuring/Keywords/#per-device-input-configs
+    # Per-device config — its own hl.device() call rather than a `device`
+    # block inside the config table.
     device = [
       {
         name = "epic-mouse-v1";
         sensitivity = -0.5;
       }
     ];
+
+    # Was `gesture = 3, horizontal, workspace` in default.nix's extraConfig.
+    gesture = {
+      fingers = 3;
+      direction = "horizontal";
+      action = "workspace";
+    };
   };
 }
