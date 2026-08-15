@@ -30,6 +30,7 @@
     kid3
     clonehero
     r2modman
+    ungoogled-chromium
 
     # 3D
     #temp removed due to upstream test failure: freecad
@@ -58,7 +59,9 @@
     playerctl
     nwg-displays
     wlr-randr
-    wlogout
+    # wlogout is installed by programs.wlogout in ./wlogout.nix, which owns its
+    # layout and stylesheet too. Listing it here as well would work but would
+    # hide where it is actually configured.
     pavucontrol
     cava
     blueman
