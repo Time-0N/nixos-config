@@ -16,7 +16,6 @@
     ./qt.nix
     ./qml.nix
     ./gazelle.nix
-    ./waybar
     ./hyprland
     ./starship.nix
     ./kitty.nix
