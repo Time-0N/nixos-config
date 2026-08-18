@@ -15,6 +15,8 @@
 
   secureBoot = true;
 
+  qylockTheme = "forest";
+
   mimeDefaultApps = {
     # File Manager
     "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
