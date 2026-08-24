@@ -149,14 +149,27 @@ its only user, and the audio pair and clock are transparent in every state.
 
 ## Zoom
 
-Every metric in `Theme.qml` is a base value times `zoom`, currently 1.4. The
+Every metric in `Theme.qml` is a base value times `zoom`, 1.4 by default. The
 base values are the sizes the bar was first drawn at and are left visible in
 the arithmetic, so it stays obvious what zoom is doing to each one. Resizing
 the bar is that one number.
 
+**It is set from the settings panel.** `shell.qml` binds it to the Bar section
+— `../settings/bar/` — which persists it to `~/.config/quickshell/bar.json`,
+clamps it, and hands the same value to *both* themes. Both, because the media
+widget is drawn from `baseTheme`, and a zoom set on `barTheme` alone would
+resize every island except that one.
+
+The literal in `Theme.qml` stays because a `Theme` built without that binding
+still has to draw the bar at the size it was tuned at. It is the same number as
+`defaultZoom` in `Bar.qml` and each is commented as pointing at the other;
+sharing one would mean the theme importing a settings section, which is
+backwards.
+
 It is called `zoom` and not `scale` deliberately: widgets read it from inside
 an `Item`, where `scale` is a `QQuickItem` property that silently means
-something else.
+something else. It is also the only property here that is not `readonly`,
+which is what lets `shell.qml` bind it.
 
 `controlSize`, `pillHeight`, `fontSize`, `smallFontSize` and `glyphSize` exist
 so widgets stop hardcoding sizes. Before them there were four separate
@@ -165,7 +178,8 @@ to resize without going lopsided.
 
 **Popups and the settings window do not zoom.** They are already sized to be
 read, and a 1.4× settings dialog is a worse settings dialog. Only bar chrome
-and bar text scale.
+and bar text scale — which is also what keeps the slider that sets it reachable
+at every size it offers.
 
 ## Hover
 

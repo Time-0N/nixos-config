@@ -10,9 +10,10 @@ import "connectivity"
 import "media"
 import "session"
 import "settings"
-// The two sections' shared state objects, which live with their sections
-// rather than at the top of settings/. They are instantiated here so both
-// screens' panels read the same one.
+// The sections' shared state objects, which live with their sections rather
+// than at the top of settings/. They are instantiated here so both screens'
+// panels read the same one.
+import "settings/bar"
 import "settings/displays"
 import "settings/wallpaper"
 import "system"
@@ -53,16 +54,22 @@ ShellRoot {
         enabled: false
     }
 
+    // Both themes take the same zoom, and the media widget is why that has to
+    // be said out loud: it is the one thing on the bar drawn from `baseTheme`,
+    // so a zoom set on `barTheme` alone would resize every island except that
+    // one. The colours are what the two themes disagree about, not the sizes.
     Theme {
         id: barTheme
 
         palette: livePalette
+        zoom: barState.zoom
     }
 
     Theme {
         id: baseTheme
 
         palette: basePalette
+        zoom: barState.zoom
     }
 
     // A pane of glass: a fill, and an edge.
@@ -265,6 +272,13 @@ ShellRoot {
     // been edited and what has been applied.
     Displays {
         id: displayState
+    }
+
+    // Shared, and here it is not a nicety: both themes above read `zoom` off
+    // this, and a second copy would be a second config file writer racing the
+    // first every time the slider was let go.
+    Bar {
+        id: barState
     }
 
     // Shared for the same reason, and because `livePalette` above reads its
@@ -625,6 +639,7 @@ ShellRoot {
                         theme: barTheme
                         displays: displayState
                         wallpaper: wallpaperState
+                        bar: barState
                     }
                 }
             }
