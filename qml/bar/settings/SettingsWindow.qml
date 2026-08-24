@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 
 // One folder per section, and the shared controls in their own.
+import "bar"
 import "common"
 import "displays"
 import "wallpaper"
@@ -22,6 +23,7 @@ PanelWindow {
     required property var theme
     required property var displays
     required property var wallpaper
+    required property var bar
 
     property bool open: false
 
@@ -42,6 +44,12 @@ PanelWindow {
             label: "Wallpaper",
             glyph: "󰋯",  // md-image_multiple_outline
             page: wallpaperSection
+        },
+        {
+            id: "bar",
+            label: "Bar",
+            glyph: "󰘮",  // md-tune
+            page: barSection
         }
     ]
 
@@ -73,6 +81,18 @@ PanelWindow {
             theme: overlay.theme
             wallpaper: overlay.wallpaper
             popupLayer: dropdowns
+        }
+    }
+
+    // No `popupLayer`: this page opens nothing that has to escape the layout.
+    // The parameter is not part of the contract, only of the pages that need
+    // it.
+    Component {
+        id: barSection
+
+        BarPage {
+            theme: overlay.theme
+            bar: overlay.bar
         }
     }
 

@@ -11,6 +11,7 @@ Item {
     required property var theme
     required property var displays
     required property var wallpaper
+    required property var bar
 
     readonly property bool open: window.open
 
@@ -53,6 +54,7 @@ Item {
         theme: widget.theme
         displays: widget.displays
         wallpaper: widget.wallpaper
+        bar: widget.bar
         // Follows the bar it hangs off, so the panel opens on the screen
         // whose button was clicked.
         screen: widget.QsWindow.window?.screen ?? null

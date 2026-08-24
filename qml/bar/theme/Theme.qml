@@ -81,7 +81,15 @@ QtObject {
     // Called `zoom` and not `scale` on purpose: widgets read this from inside
     // an Item, and `scale` there is a QQuickItem property that silently means
     // something else.
-    readonly property real zoom: 1.4
+    //
+    // Writable, and written by exactly one thing: ../shell.qml binds it to the
+    // settings panel's Bar section, which persists it to
+    // ~/.config/quickshell/bar.json. The literal here is the size the bar was
+    // tuned at and is what a Theme built without that binding draws at, which
+    // is why the same number appears as `defaultZoom` in
+    // ../settings/bar/Bar.qml — a fresh session with no config file must look
+    // exactly as it did before that section existed.
+    property real zoom: 1.4
 
     readonly property int barHeight: Math.round(38 * theme.zoom)
     // The bar floats rather than sitting on the screen edge, so the wallpaper

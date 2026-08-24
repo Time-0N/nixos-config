@@ -10,17 +10,21 @@ bar:
 ```qml
 Displays  { id: displayState }     // shared, once
 Wallpaper { id: wallpaperState }   // shared, once
+Bar       { id: barState }         // shared, once
 ...
 SettingsWidget {                   // per bar
     theme: barTheme
     displays: displayState
     wallpaper: wallpaperState
+    bar: barState
 }
 ```
 
 The state objects sit at `ShellRoot` level so both screens' panels agree on
 what has been edited and what has been applied — and, for `Wallpaper`, so
-there is one watcher on the state file rather than one per output.
+there is one watcher on the state file rather than one per output. `Bar` has a
+harder reason still: both `Theme`s read `zoom` off it, and a second copy would
+be a second writer racing the first for `bar.json`.
 `SettingsWidget` is per bar, which is what makes the panel open on the monitor
 whose button you clicked.
 
@@ -31,6 +35,7 @@ settings/
 ├── SettingsWidget.qml    the bar pill, and the overlay it owns
 ├── SettingsWindow.qml    backdrop, window chrome, sidebar, section routing
 ├── common/               controls every section draws with
+├── bar/                  the Bar section — see its own README
 ├── displays/             the Displays section
 └── wallpaper/            the Wallpaper section — see its own README
 ```
@@ -55,6 +60,7 @@ to tell `MonitorDraft.qml` from `NumberField.qml` is to open both.
 | `displays/Displays.qml` | Reads monitors, applies changes, rewrites `monitors.lua` |
 | `displays/vrrcap.sh` | Which outputs can do adaptive sync, as `{"DP-2":true}` |
 | `wallpaper/*` | See `wallpaper/README.md` |
+| `bar/*` | See `bar/README.md` |
 
 ## Adding a section
 
@@ -292,7 +298,9 @@ nothing at render time — the compositor was already blurring the layer.
   past the blur threshold the whole desktop starts frosting, and that
   threshold is shared by every frosted layer, so it is not this panel's to
   move.
-- **Scale choices** — `scaleChoices` in `displays/Displays.qml`.
+- **Scale choices** — `scaleChoices` in `displays/Displays.qml`. That is the
+  *monitor's* scale, which Hyprland applies to every window on the output. The
+  **bar's** own scale is the Bar section's slider — see `bar/README.md`.
 - **Colours** — all from `theme`, which is the live `Theme` object `shell.qml`
   hands down. That means the panel follows the wallpaper along with the rest of
   the bar; see `../theme/README.md`.
