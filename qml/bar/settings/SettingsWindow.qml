@@ -24,6 +24,7 @@ PanelWindow {
     required property var displays
     required property var wallpaper
     required property var bar
+    required property var power
 
     property bool open: false
 
@@ -93,6 +94,7 @@ PanelWindow {
         BarPage {
             theme: overlay.theme
             bar: overlay.bar
+            power: overlay.power
         }
     }
 
@@ -360,6 +362,10 @@ PanelWindow {
         // Re-read the hardware on the way in, so unplugging a monitor between
         // two visits cannot leave the page describing one that is gone.
         overlay.displays.refreshCapabilities();
+        // Same bargain for the power daemon, which can be started or stopped
+        // under a running session: the Bar page names what it found, and
+        // naming a stale answer is worse than taking 50ms to ask again.
+        overlay.power.refresh();
     }
 
     ParallelAnimation {

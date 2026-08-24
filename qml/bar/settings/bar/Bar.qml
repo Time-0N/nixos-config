@@ -86,6 +86,18 @@ Scope {
             id: config
 
             property real zoom: root.defaultZoom
+
+            // Off by default, and deliberately not derived from whether the
+            // machine has a battery. The islands it adds already hide
+            // themselves when nothing is reporting, so this is the *other*
+            // question — whether a laptop wants them on the bar at all — and
+            // that is not a thing to guess.
+            //
+            // The waybar this replaced gated the same two modules on the nix
+            // variable `enableLaptopMode`, which is per host and takes a
+            // rebuild. This is that setting, moved to where it can be answered
+            // in a click. See ../../power/README.md.
+            property bool laptopMode: false
         }
     }
 }

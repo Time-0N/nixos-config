@@ -20,12 +20,21 @@ Item {
 
     required property var theme
     required property var bar
+    // Not for setting anything — the page reads it to say whether laptop mode
+    // has anything to show, and to name what it found.
+    required property var power
 
     // The clamped value rather than the raw setting, so the readouts and the
     // handle agree with the bar even when a hand-edited config put something
     // silly in the file. Writes still go to `settings.zoom` — this is what the
     // bar is, that is what was asked for.
     readonly property real zoom: page.bar.zoom
+
+    // Laptop mode adds two islands, and each one needs its own source to be
+    // answering. With neither answering there is nothing to switch on, which
+    // is what disables the toggle rather than letting it turn on two islands
+    // that would not appear.
+    readonly property bool anySource: page.power.batteryAvailable || page.power.profilesAvailable
 
     ColumnLayout {
         anchors.fill: parent
@@ -132,6 +141,79 @@ Item {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
                     text: "This window, the cards the bar opens and the tray menu keep their own size. They are already sized to be read, and a 140% settings dialog is a worse settings dialog."
+                    color: page.theme.dim
+                    font.family: page.theme.fontFamily
+                    font.pixelSize: 10
+                    wrapMode: Text.WordWrap
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    Layout.topMargin: 2
+                    Layout.bottomMargin: 2
+                    implicitHeight: 1
+                    color: Qt.rgba(page.theme.fg.r, page.theme.fg.g, page.theme.fg.b, 0.1)
+                }
+
+                // ── Laptop mode ────────────────────────────────────────
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 1
+
+                    Text {
+                        text: "Laptop mode"
+                        color: page.anySource ? page.theme.fg : page.theme.dim
+                        font.family: page.theme.fontFamily
+                        font.pixelSize: 12
+                    }
+
+                    Text {
+                        Layout.fillWidth: true
+                        text: "Adds a battery readout and a power profile switch to the bar, next to the media player."
+                        color: page.theme.dim
+                        font.family: page.theme.fontFamily
+                        font.pixelSize: 10
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                Toggle {
+                    theme: page.theme
+                    Layout.alignment: Qt.AlignRight | Qt.AlignTop
+                    checked: page.bar.settings.laptopMode
+                    // A machine reporting neither a battery nor a power
+                    // profile has nothing to turn on, and a switch that
+                    // visibly does nothing is worse than one that says it
+                    // cannot. What it *would* have shown is spelled out in the
+                    // two lines below, so this is never a dead end with no
+                    // explanation.
+                    enabled: page.anySource
+
+                    onToggled: value => {
+                        page.bar.settings.laptopMode = value;
+                        page.bar.persist();
+                    }
+                }
+
+                // What each island is waiting on, named rather than left to be
+                // guessed. Both lines are shown whatever the toggle says: the
+                // question "why is there no battery on my bar" is asked most
+                // often by someone who has already switched this on.
+                Text {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    text: page.power.batteryAvailable ? ("Battery — reporting, " + page.power.percent + "% now") : "Battery — nothing reporting. UPower has no laptop battery on this machine."
+                    color: page.theme.dim
+                    font.family: page.theme.fontFamily
+                    font.pixelSize: 10
+                    wrapMode: Text.WordWrap
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    text: page.power.profilesAvailable ? ("Power profiles — " + page.power.profiles.map(profile => profile.label).join(", ")) : "Power profiles — nothing reporting. power-profiles-daemon is not running."
                     color: page.theme.dim
                     font.family: page.theme.fontFamily
                     font.pixelSize: 10

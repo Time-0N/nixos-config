@@ -87,6 +87,26 @@ QtObject {
 
     readonly property bool dirty: draft.resolution !== draft.liveResolution || Math.abs(draft.rate - draft.liveRate) > 0.05 || Math.abs(draft.scale - draft.liveScale) > 0.001 || draft.vrr !== draft.liveVrrValue || draft.x !== draft.liveX || draft.y !== draft.liveY
 
+    // Picking a resolution rebuilds both lists derived from it, so the old
+    // *indices* mean nothing — but the values behind them do. Index 0 was
+    // wrong in both columns: `rates` is sorted descending, so a display sitting
+    // at 60Hz came back at its 240Hz ceiling, and `scales` always starts at 1,
+    // so changing resolution on a HiDPI panel silently threw the scale away and
+    // left everything on it half-size. Nearest-by-value keeps the setting that
+    // was not being changed as close as the new resolution allows.
+    //
+    // Reading `rates` and `scales` after the assignment is what re-derives
+    // them: they are bindings on `resolutionIndex`, so the new lists are
+    // already in place by the time they are read here.
+    function chooseResolution(index) {
+        const wantedRate = draft.rate;
+        const wantedScale = draft.scale;
+
+        draft.resolutionIndex = index;
+        draft.rateIndex = draft.displays.nearestIndex(draft.rates, wantedRate);
+        draft.scaleIndex = draft.displays.nearestIndex(draft.scales, wantedScale);
+    }
+
     function entry() {
         return {
             output: draft.name,
@@ -98,17 +118,11 @@ QtObject {
     }
 
     function resync() {
-        const index = Math.max(0, draft.resolutions.indexOf(draft.liveResolution));
-        draft.resolutionIndex = index;
-        draft.rateIndex = draft.displays.nearestRate(draft.rateTable[draft.resolutions[index]] ?? [], draft.liveRate);
-
-        const scales = draft.resolutions.length > 0 ? draft.displays.scalesFor(draft.resolutions[index]) : [];
-        let best = 0;
-        for (let i = 1; i < scales.length; i++) {
-            if (Math.abs(scales[i] - draft.liveScale) < Math.abs(scales[best] - draft.liveScale))
-                best = i;
-        }
-        draft.scaleIndex = best;
+        draft.resolutionIndex = Math.max(0, draft.resolutions.indexOf(draft.liveResolution));
+        // Same reasoning as chooseResolution: read the derived lists after the
+        // index that derives them, and pick by value rather than by position.
+        draft.rateIndex = draft.displays.nearestIndex(draft.rates, draft.liveRate);
+        draft.scaleIndex = draft.displays.nearestIndex(draft.scales, draft.liveScale);
 
         // Hyprland reports vrr as a plain bool, so a session running in
         // fullscreen-only mode reads back as "Always". There is nothing finer

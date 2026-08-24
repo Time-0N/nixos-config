@@ -40,13 +40,32 @@
     extraConfig = ''
       local hypr_config_dir = (os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")) .. "/hypr"
 
-      -- dofile rather than require, and it matters: Hyprland reuses one Lua
-      -- state across `hyprctl reload`, so require() finds monitors in
-      -- package.loaded and returns without re-reading the file. Every reload
-      -- after the first would silently keep the monitor layout from session
-      -- start, however many times the settings panel had rewritten it since.
-      -- dofile re-executes unconditionally. It also needs no package.path
-      -- entry, which the require version was re-prepending on every reload.
+      -- dofile rather than require. `require("monitors")` does in fact work
+      -- here, and the reason once given for avoiding it was wrong: Hyprland
+      -- builds a *fresh* Lua state for every `hyprctl reload`, so
+      -- package.loaded is empty each time and require re-reads the file. That
+      -- was measured rather than assumed — a global and a package.loaded entry
+      -- planted through `hyprctl eval` both survive a second eval and are both
+      -- gone after a reload, and a test module required twice in one state
+      -- executes once but executes again after a reload. The config dir is
+      -- already on package.path (Hyprland puts it there), so require needs no
+      -- path entry either.
+      --
+      -- It stays dofile because it is unconditional rather than
+      -- conditionally-correct. require's correctness here rests on the state
+      -- being new, which is a property of the reload path and not of this Lua
+      -- environment: `hyprctl eval` shares one long-lived state across calls,
+      -- as the same measurement showed. Anything that ever re-runs this config
+      -- in a state that has already seen it — an eval, a future in-session
+      -- reload — gets the layout from session start with no way to tell. dofile
+      -- re-executes because that is all it does, and it names the file instead
+      -- of asking a search path to find it.
+      --
+      -- Neither choice affects VRR. A `vrr` in a monitor rule is read when the
+      -- output comes up and not afterwards, so it takes on the next Hyprland
+      -- start whichever way this file is loaded — also measured: vrr = 1 in
+      -- monitors.lua followed by a reload leaves DRM's VRR_ENABLED at 0, and so
+      -- does pushing the same rule through `hyprctl eval`.
       --
       -- pcall so a missing or malformed monitors.lua leaves a usable display
       -- rather than no output at all.
@@ -72,7 +91,7 @@
     }
   '';
 
-  # Seed monitors.lua on first run so the require above has something to find.
+  # Seed monitors.lua on first run so the dofile above has something to read.
   # Never overwritten: past first run the settings panel owns this file.
   home.activation.createMonitorsConf = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     HYPR_DIR="$HOME/.config/hypr"

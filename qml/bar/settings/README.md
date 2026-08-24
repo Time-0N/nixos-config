@@ -11,12 +11,14 @@ bar:
 Displays  { id: displayState }     // shared, once
 Wallpaper { id: wallpaperState }   // shared, once
 Bar       { id: barState }         // shared, once
+Power     { id: powerState }       // shared, once — lives in ../power/
 ...
 SettingsWidget {                   // per bar
     theme: barTheme
     displays: displayState
     wallpaper: wallpaperState
     bar: barState
+    power: powerState
 }
 ```
 
@@ -61,6 +63,11 @@ to tell `MonitorDraft.qml` from `NumberField.qml` is to open both.
 | `displays/vrrcap.sh` | Which outputs can do adaptive sync, as `{"DP-2":true}` |
 | `wallpaper/*` | See `wallpaper/README.md` |
 | `bar/*` | See `bar/README.md` |
+
+The Bar section also reads `../power/Power.qml`, which is not a section of its
+own: it has no page, and the two islands it drives live on the bar rather than
+in the panel. The page reads it to say whether laptop mode has anything to turn
+on — see `../power/README.md`.
 
 ## Adding a section
 
@@ -139,13 +146,23 @@ alone is a silent no-op:
    generated `hyprland.lua` loads that file — see the `extraConfig` block in
    `modules/home/hyprland/default.nix`.
 
-   That block uses `dofile`, not `require`, and it matters: Hyprland reuses a
-   single Lua state across `hyprctl reload`, so `require` finds `monitors` in
-   `package.loaded` and returns without re-reading the file. Every reload after
-   the first would silently keep the layout from session start, however many
-   times this panel had rewritten it since. `package.loaded["monitors"]` was
-   `true` and `package.path` had the hypr dir in it twice, which is how that
-   was pinned down.
+   That block uses `dofile`, not `require` — but **not** for the reason it
+   used to give. `require("monitors")` works here: Hyprland builds a *fresh*
+   Lua state for every `hyprctl reload`, so `package.loaded` is empty each time
+   and require re-reads the file. Measured, not assumed — a global and a
+   `package.loaded` entry planted through `hyprctl eval` both survive a second
+   eval and are both gone after a reload, and a test module required twice in
+   one state executes once but executes again after a reload. The hypr config
+   dir is already on `package.path` (Hyprland puts it there), so require would
+   need no path entry either.
+
+   It stays `dofile` because it is unconditional rather than
+   conditionally-correct. require's correctness rests on the state being new,
+   which is a property of the reload path and not of the Lua environment:
+   `hyprctl eval` shares one long-lived state across calls. Anything that ever
+   re-runs the config in a state that has already seen it gets the layout from
+   session start with no way to tell. `dofile` re-executes because that is all
+   it does, and it names the file rather than asking a search path to find it.
 
 The file is written whole, never patched: it is generated output, and
 half-updating it is how you get two rules for one output. `atomicWrites` is on
@@ -158,14 +175,57 @@ a lua *syntax* error comes back as an error. So `apply()` waits, calls
 against what was asked for. Anything that did not take is named in the status
 line.
 
+**The read-back polls to convergence rather than waiting a fixed time**, and
+that is not a refinement — without it the panel called every successful change
+a failure. A mode switch takes the output down and brings it up again, and for
+as long as that lasts `hyprctl monitors -j` reports it at 0x0 with a scale of
+0. The old code refreshed after 700ms and compared 250ms later; on this
+hardware the switch is still in progress at 950ms, so the comparison landed
+inside the reconfigure window and reported "Hyprland did not take" — naming the
+outputs that were *not* being changed too, because they blank along with it.
+
+Waiting longer is not the fix, because the opposite error is just as easy:
+compare too early in the other direction and the output is still driving the
+old mode, which also does not match. There is no single instant that is safe.
+So the check re-reads every 250ms and the first tick where everything matches
+is the answer, with anything still wrong after 6s reported as refused. A
+missing or zero-size output counts as "not back yet" rather than as a refusal.
+Measured on this machine: 4K 144Hz → 120Hz converges in 784ms and the restore
+in 354ms, both of which the old fixed wait would have called failures.
+
+A genuine refusal now costs the full 6s before it is named. That is the right
+way round — a change that took is nearly every change, and it is confirmed as
+soon as it lands.
+
+The read-back checks **resolution, refresh rate and scale**. The rate is the
+one that used to be missing, and it is the easiest of the three to lose:
+Hyprland takes `3840x2160@144` on a panel that will only drive 144 at a lower
+resolution, reports `ok`, brings the output up at 120, and the panel said
+"Saved". It is compared with a whole hertz of slack, because the two ends are
+never the same number — the mode list says `144.00` and the monitor reports
+`143.99899` — and that is still far tighter than the gap between any two rates
+a display actually offers.
+
+A failure that produces *no* stdout at all — `hyprctl` missing from PATH, the
+compositor socket gone — is caught by the process's exit code instead. Without
+that the panel had no way out of `busy`: Apply and Revert both stayed disabled
+with "Applying…" as the last word, for the rest of the session.
+
 **VRR is the exception, and is reported separately.** Hyprland reads a monitor
 rule's `vrr` when it brings the output up and not afterwards: setting the rule
 on a running session is accepted, reports `ok`, and changes nothing. That was
-confirmed down at the DRM level — `VRR_ENABLED` on the CRTC stays 0. The global
-`misc:vrr` *does* apply live, but flipping that would drag every other output
-along with it, which defeats the point of a per-monitor toggle. So the file is
-written correctly and the status line says the session catches up the next time
-Hyprland starts. Treating that as a failure would be wrong; the setting is
+confirmed down at the DRM level — `VRR_ENABLED` on the CRTC stays 0.
+
+Neither of the two ways of re-running the config helps. `vrr = 1` written into
+`monitors.lua` followed by a `hyprctl reload` leaves `VRR_ENABLED` at 0, and so
+does pushing the same rule through `hyprctl eval`, which is what Apply already
+does. The global `misc:vrr` is no way out either: setting it live does move the
+option — `hyprctl getoption misc:vrr` reports `int: 1` afterwards — but
+`VRR_ENABLED` still stays 0, so it buys nothing here, and it would drag every
+output along with it, which defeats the point of a per-monitor toggle.
+
+So the file is written correctly and the status line says the session catches up
+the next time Hyprland starts. Treating that as a failure would be wrong; the setting is
 right, it is just a restart away.
 
 Nothing is applied as you pick it. A wrong mode can leave a screen dark, and a
@@ -182,6 +242,16 @@ resolution, then pick from the rates that resolution actually supports.
 **Scale** is filtered against the chosen resolution. Hyprland refuses a scale
 that does not divide the mode into whole logical pixels, so offering the full
 list would mostly be offering errors.
+
+**Picking a resolution carries the other two over by value**, in
+`MonitorDraft.chooseResolution()`. Both lists are derived from the resolution,
+so the old *indices* are meaningless — but index 0 was the wrong answer in both
+columns. `rates` is sorted descending, so a display sitting at 60Hz came back at
+its 240Hz ceiling; `scales` always begins at 1, so changing resolution on a
+HiDPI panel threw the scale away and left everything on it half-size. The
+nearest available value keeps the setting that was not being changed as close as
+the new resolution allows — on this machine, 4K at 1.5× dropped to 1440p becomes
+1.33× rather than 1×, because 1.5 does not divide 1440.
 
 **VRR** is written into the per-monitor rule rather than the global
 `misc:vrr`, so one display can run adaptive while another stays fixed. It is

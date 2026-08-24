@@ -8,6 +8,7 @@ import QtQuick
 // Each bar section lives in its own folder — see the README in each.
 import "connectivity"
 import "media"
+import "power"
 import "session"
 import "settings"
 // The sections' shared state objects, which live with their sections rather
@@ -281,6 +282,12 @@ ShellRoot {
         id: barState
     }
 
+    // Shared for the ordinary reason — one probe of the power daemon rather
+    // than one per output, and both screens agreeing on the charge.
+    Power {
+        id: powerState
+    }
+
     // Shared for the same reason, and because `livePalette` above reads its
     // `currentPath`: one watcher on the state file rather than one per screen.
     Wallpaper {
@@ -419,7 +426,40 @@ ShellRoot {
                     }
                 }
 
-                
+                // ── Laptop mode ────────────────────────────────────────
+                // Two islands rather than one shared pane: a charge level and
+                // a power profile are a readout and a control, and the only
+                // thing they have in common is the word "power". The audio
+                // pair share a pane because they are two of the same thing.
+                //
+                // Placed after the media island, which is what puts them next
+                // to the player — and, because a Row skips children that are
+                // not visible, next to the audio pane instead whenever there
+                // is no player. That is one placement satisfying both cases
+                // rather than a rule that has to choose.
+                //
+                // Each is bound to its own source being live, so laptop mode
+                // on a machine that reports only one of the two shows only
+                // that one. Bound to the *state* and never to the widget's own
+                // visibility — see the note on Island above for what that
+                // costs when it is got wrong.
+                Island {
+                    visible: barState.settings.laptopMode && powerState.batteryAvailable
+
+                    BatteryWidget {
+                        theme: barTheme
+                        power: powerState
+                    }
+                }
+
+                Island {
+                    visible: barState.settings.laptopMode && powerState.profilesAvailable
+
+                    ProfileWidget {
+                        theme: barTheme
+                        power: powerState
+                    }
+                }
             }
 
             // ── Center: workspaces ─────────────────────────────────────
@@ -640,6 +680,7 @@ ShellRoot {
                         displays: displayState
                         wallpaper: wallpaperState
                         bar: barState
+                        power: powerState
                     }
                 }
             }

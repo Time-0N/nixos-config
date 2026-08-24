@@ -218,14 +218,13 @@ Item {
                         currentIndex: page.selected?.resolutionIndex ?? 0
                         Layout.alignment: Qt.AlignRight
 
+                        // Both the rate and scale lists are derived from the
+                        // resolution, so picking one has to re-derive them —
+                        // which is the draft's job rather than the page's, and
+                        // is why this is a call and not three assignments.
                         onActivated: index => {
-                            if (!page.selected)
-                                return;
-                            page.selected.resolutionIndex = index;
-                            // Both the rate and scale lists are derived from
-                            // the resolution, so the old indices mean nothing.
-                            page.selected.rateIndex = 0;
-                            page.selected.scaleIndex = 0;
+                            if (page.selected)
+                                page.selected.chooseResolution(index);
                         }
                     }
 

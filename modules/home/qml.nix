@@ -48,6 +48,10 @@ let
         # modules/home/hyprland/wallpaper-slideshow.nix for why the shell asks
         # systemd rather than driving awww itself.
         #
+        # power/: profiles.sh asks DBus with busctl whether
+        # power-profiles-daemon is there at all, which is the one thing
+        # quickshell's PowerProfiles service cannot answer.
+        #
         # session/: also systemd-inhibit, which is what holds the idle lock.
         pkgs.systemd
         # session/: the idle lock's payload is `cat` on a pipe, so that the

@@ -1,10 +1,11 @@
 # Bar
 
-The Bar section: how big the bar is drawn.
+The Bar section: how big the bar is drawn, and whether it carries the
+laptop-mode islands.
 
 | File | What it does |
 | --- | --- |
-| `Bar.qml` | The setting, clamped, and the config file it lives in (non-visual) |
+| `Bar.qml` | The settings, clamped, and the config file they live in (non-visual) |
 | `BarPage.qml` | The page |
 
 ## What it actually moves
@@ -72,6 +73,38 @@ The settings window, the cards the bar opens, and the tray menu. They are sized
 in plain pixels and read nothing from `zoom` — they are already sized to be
 read, and a 140% settings dialog is a worse settings dialog. Only bar chrome
 and bar text follow the slider.
+
+## Laptop mode
+
+The second setting here, and the only one that is not about size. On it adds
+two islands to the bar — a battery readout and a power profile switch — and
+what they are and where they go is `../../power/README.md`.
+
+It is **off by default and not derived from the hardware.** The islands already
+hide themselves when nothing is reporting, so this is the other question:
+whether a machine that *could* show them wants them. That is not a thing to
+guess.
+
+The toggle is **disabled when neither source is answering**, because there
+would be nothing for it to turn on and a switch that visibly does nothing is
+worse than one that says it cannot. Underneath it, two lines name what was
+found either way:
+
+```
+Battery — reporting, 74% now
+Power profiles — Saver, Balanced, Performance
+```
+
+…or, on this desktop:
+
+```
+Battery — nothing reporting. UPower has no laptop battery on this machine.
+Power profiles — Saver, Balanced, Performance
+```
+
+Both lines show whatever the toggle says, because "why is there no battery on
+my bar" is a question asked most often by someone who has already switched it
+on. The page reads `power` for exactly this and sets nothing through it.
 
 ## One number for every output
 
