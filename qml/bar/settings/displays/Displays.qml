@@ -326,8 +326,12 @@ ${calls.join("\n")}
                 continue;
             }
 
+            // "preferred" hands the choice to Hyprland, so there is nothing to
+            // hold it to but the scale — see MonitorDraft.entry() for the one
+            // case that writes it.
+            const wantsMode = entry.mode !== "preferred";
             const actual = `${monitor.width}x${monitor.height}`;
-            const wantedRate = parseFloat(entry.mode.split("@")[1]);
+            const wantedRate = wantsMode ? parseFloat(entry.mode.split("@")[1]) : NaN;
             const actualRate = monitor.lastIpcObject?.refreshRate ?? 0;
 
             // The rate is checked as well as the resolution, and it is the
@@ -343,7 +347,9 @@ ${calls.join("\n")}
             // thing being caught.
             const rateMissed = isFinite(wantedRate) && Math.abs(actualRate - wantedRate) > 1;
 
-            if (actual !== entry.mode.split("@")[0] || rateMissed || Math.abs(monitor.scale - entry.scale) > 0.01)
+            const modeMissed = wantsMode && (actual !== entry.mode.split("@")[0] || rateMissed);
+
+            if (modeMissed || Math.abs(monitor.scale - entry.scale) > 0.01)
                 missed.push(entry.output);
         }
 

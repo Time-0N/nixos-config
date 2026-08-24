@@ -54,9 +54,36 @@ Item {
         page.displays.apply(page.draftList.map(draft => draft.entry()));
     }
 
-    function revertAll() {
+    // Every draft back to what its output is really doing. Revert is one
+    // caller; the end of an apply is the other, and that second one is not a
+    // nicety.
+    //
+    // A draft resyncs itself when its output's `signature` moves, which is
+    // right when a change takes and silently wrong when it does not. An apply
+    // Hyprland refuses leaves the hardware exactly as it was — so nothing
+    // moves, so nothing resyncs, and the selector goes on showing the rate
+    // that was asked for while the display keeps running the one it kept. A
+    // panel reading 120 Hz over a 60 Hz screen is worse than no panel: the
+    // "Currently …" line above says 60 and the control below it says 120, and
+    // only one of them is true.
+    //
+    // Nothing is lost by doing this on success either, where every draft
+    // already matches and this is a no-op.
+    function resyncAll() {
         for (const draft of page.draftList)
             draft.resync();
+    }
+
+    // The apply is over and the read-back has spoken, so whatever the outputs
+    // are actually doing is what the controls now show. `applied` has existed
+    // since the panel was written and had no listener until this — which is
+    // exactly how the lie above survived.
+    Connections {
+        target: page.displays
+
+        function onApplied() {
+            page.resyncAll();
+        }
     }
 
     Instantiator {
@@ -389,7 +416,7 @@ Item {
                 theme: page.theme
                 label: "Revert"
                 enabled: page.anyDirty && !page.displays.busy
-                onTriggered: page.revertAll()
+                onTriggered: page.resyncAll()
             }
 
             Button {

@@ -107,10 +107,28 @@ QtObject {
         draft.scaleIndex = draft.displays.nearestIndex(draft.scales, wantedScale);
     }
 
+    // `mode` is only ever a rate this output actually lists, or the word
+    // "preferred". Never an arithmetic result.
+    //
+    // Hyprland does not refuse a rate it has no mode for — it *invents* a
+    // modeline. Asking a 4K panel here for 100Hz produced a real CVT timing at
+    // htotal 5376 where its own 144Hz mode is 4020, the display took it, and
+    // `hyprctl monitors` then reported 100Hz. A panel that quietly declines
+    // that invented timing and keeps its old one would report the invented
+    // rate just the same, and there would be nothing in the IPC to catch it —
+    // which is exactly what "the panel says 120 and the screen is at 60" looks
+    // like from here.
+    //
+    // The list-derived rates round-trip exactly, because they were parsed from
+    // the strings Hyprland itself prints to two decimals. `rate` only leaves
+    // that set when `rates` is empty, where it falls back to `liveRate` — and
+    // liveRate is the raw reported float, 143.99899, which rounds to "143.99":
+    // a rate no panel lists, and therefore a modeline nobody asked for.
+    // "preferred" is what that case actually means.
     function entry() {
         return {
             output: draft.name,
-            mode: draft.displays.modeString(draft.resolution, draft.rate),
+            mode: draft.rates.length > 0 ? draft.displays.modeString(draft.resolution, draft.rate) : "preferred",
             position: `${draft.x}x${draft.y}`,
             scale: draft.scale,
             vrr: draft.vrr
