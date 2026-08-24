@@ -68,14 +68,14 @@
         ];
       };
 
-      nixosConfigurations.phobos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.deimos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          vars = import ./hosts/phobos/variables.nix;
+          vars = import ./hosts/deimos/variables.nix;
         };
         modules = [
-          ./hosts/phobos/configuration.nix
+          ./hosts/deimos/configuration.nix
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.impermanence.nixosModules.impermanence
           inputs.nix-flatpak.nixosModules.nix-flatpak
@@ -85,7 +85,7 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
               inherit inputs;
-              vars = import ./hosts/phobos/variables.nix;
+              vars = import ./hosts/deimos/variables.nix;
             };
             home-manager.users.timeon = import ./modules/home/default.nix;
             home-manager.sharedModules = [
