@@ -12,6 +12,8 @@
       sensitivity = 0; # -1.0 - 1.0, 0 means no modification
 
       touchpad = {
+        clickfinger_behavior = true;
+        tap_to_click = true;
         natural_scroll = false;
       };
     };
