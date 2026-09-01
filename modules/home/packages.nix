@@ -33,7 +33,7 @@
     ungoogled-chromium
 
     # 3D
-    #temp removed due to upstream test failure: freecad
+    freecad
     openscad
     blender
 
