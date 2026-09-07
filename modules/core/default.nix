@@ -22,5 +22,6 @@
     ./nix.nix
     ./flatpak.nix
     ./keyring.nix
+    ./virtualisation.nix
   ];
 }

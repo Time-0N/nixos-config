@@ -11,6 +11,7 @@
       "storage"
       "adbusers"
       "kvm"
+      "docker"
     ];
     shell = pkgs.zsh;
   };
