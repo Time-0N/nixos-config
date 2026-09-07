@@ -165,16 +165,23 @@
     {
       mode = "n";
       key = "<leader>bd";
-      action = "<cmd>bdelete<cr>";
+      action.__raw = "function() require('mini.bufremove').delete(0, false) end";
       options.desc = "Delete buffer";
     }
-    #TODO Needs fixing
-    #{
-    #mode = "n";
-    #key = "<leader>bD";
-    #action = "<cmd>%bdelete<cr>";
-    #options.desc = "Delete all buffers";
-    #}
+    {
+      mode = "n";
+      key = "<leader>bD";
+      action.__raw = ''
+        function()
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.bo[buf].buflisted then
+              require('mini.bufremove').delete(buf, false)
+            end
+          end
+        end
+      '';
+      options.desc = "Delete all buffers";
+    }
 
     # ── Tab navigation ───────────────────────────────────────────
     {
