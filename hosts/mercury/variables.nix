@@ -62,5 +62,23 @@
     # Torrents
     "application/x-bittorrent" = [ "org.qbittorrent.qBittorrent.desktop" ];
     "x-scheme-handler/magnet" = [ "org.qbittorrent.qBittorrent.desktop" ];
+
+    # Archives
+    "application/zip" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-zip-compressed" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-tar" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-compressed-tar" = [ "org.gnome.Nautilus.desktop" ];
+    "application/gzip" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-gzip" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-bzip" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-bzip2" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-xz" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-lzma" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-7z-compressed" = [ "org.gnome.Nautilus.desktop" ];
+    "application/vnd.rar" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-rar-compressed" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-cpio" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-lzip" = [ "org.gnome.Nautilus.desktop" ];
+    "application/x-lzop" = [ "org.gnome.Nautilus.desktop" ];
   };
 }
