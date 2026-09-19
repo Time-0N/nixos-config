@@ -23,5 +23,6 @@
     ./flatpak.nix
     ./keyring.nix
     ./virtualisation.nix
+    ./mullvad-vpn.nix
   ];
 }

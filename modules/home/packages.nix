@@ -23,7 +23,6 @@
       ];
     })
     qbittorrent
-    proton-vpn
     jellyfin-desktop
     fuzzel # Clipboard selector
     trayscale
