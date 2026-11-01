@@ -41,6 +41,8 @@
 
     consoleLogLevel = 3;
     initrd.verbose = false;
+
+    supportedFilesystems = [ "exfat" ];
   };
 
   environment.systemPackages = with pkgs; [ sbctl ];

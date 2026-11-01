@@ -24,5 +24,7 @@
     ./keyring.nix
     ./virtualisation.nix
     ./mullvad-vpn.nix
+    ./yarg.nix
+    ./app-image.nix
   ];
 }

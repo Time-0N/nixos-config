@@ -10,6 +10,12 @@
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
+
+      # v1.1.0 pins a rust-overlay that still reads stdenv.isLinux and
+      # stdenv.isDarwin, which nixpkgs now warns about on every evaluation.
+      # The toolchain itself comes from lanzaboote's rust-toolchain.toml, so
+      # taking a newer overlay only drops the deprecated attribute reads.
+      inputs.rust-overlay.url = "github:oxalica/rust-overlay";
     };
 
     home-manager = {

@@ -11,35 +11,26 @@ let
   cursorName = "MacOSX-Cursor";
   cursorSize = 24;
 
-  # Blank the greeter's displays after this long without input. Any key or
-  # mouse movement wakes them back up. 0 would disable idling entirely.
-  greeterIdleSeconds = 300;
-
   xkb = config.services.xserver.xkb;
 
-  # nixpkgs' own weston.ini, plus the bits kiosk-shell can't do. The idle
-  # signal is only acted on by desktop-shell, so we run that instead and
-  # strip it back down until it behaves like a kiosk.
   westonIni = (pkgs.formats.ini { }).generate "weston.ini" {
     core = {
-      shell = "desktop-shell.so";
-      idle-time = greeterIdleSeconds;
+      shell = "kiosk";
+      # Keep this at 0. Only desktop-shell acts on weston's idle signal, and
+      # there it blanks the greeter's outputs without bringing them back.
+      # Unset falls back to weston's built-in 300 s.
+      idle-time = 0;
       require-input = false;
     };
     shell = {
-      panel-position = "none";
       background-color = "0xff000000";
-      locking = false;
-      animation = "fade";
-      startup-animation = "none";
-      cursor-theme = cursorName;
-      cursor-size = cursorSize;
     };
+    # Empty path stops weston from launching weston-keyboard over the greeter.
     "input-method" = {
       path = "";
     };
     libinput = {
-      enable-tap = config.services.libinput.mouse.tapping;
+      enable-tap = config.services.libinput.touchpad.tapping;
       left-handed = config.services.libinput.mouse.leftHanded;
     };
     keyboard = {

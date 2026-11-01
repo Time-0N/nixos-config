@@ -30,6 +30,9 @@
     clonehero
     r2modman
     ungoogled-chromium
+    rufin
+    deadlock-mod-manager
+    scanmem
 
     # 3D
     freecad
@@ -73,6 +76,7 @@
     # Wine and Proton
     wineWow64Packages.staging
     winetricks
+    protontricks
     protonup-qt
 
     # Language runtimes
