@@ -22,6 +22,7 @@
       jdtls.enable = true;
       html.enable = true;
       cssls.enable = true;
+      vue_ls.enable = true;
       jsonls.enable = true;
       vtsls.enable = true;
       bashls.enable = true;
