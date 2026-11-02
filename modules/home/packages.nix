@@ -84,6 +84,7 @@
     cargo
     python3
     ghc
+    typst
 
     # Clanker tooling
     opencode
