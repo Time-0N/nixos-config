@@ -40,7 +40,6 @@
     ];
 
     consoleLogLevel = 3;
-    initrd.verbose = false;
 
     supportedFilesystems = [ "exfat" ];
   };
