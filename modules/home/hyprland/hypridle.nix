@@ -29,7 +29,7 @@
           on-resume = "busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d 1.0";
         }
         {
-          timeout = 300;
+          timeout = 900;
           on-timeout = "lockscreen";
         }
         {
