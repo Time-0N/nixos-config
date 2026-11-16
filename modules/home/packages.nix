@@ -34,6 +34,10 @@
     deadlock-mod-manager
     scanmem
 
+    # Office
+    libreoffice
+    onlyoffice-desktopeditors
+
     # 3D
     freecad
     openscad
